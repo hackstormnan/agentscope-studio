@@ -43,14 +43,24 @@ export class FileTraceStore implements TraceStore {
     }
   }
 
+  async getAllSummaries(): Promise<TraceSummary[]> {
+    return this.readIndex();
+  }
+
   async listTraces(params: ListParams): Promise<ListResult> {
-    const { limit = 20, cursor, hasError } = params;
+    const { limit = 20, cursor, hasError, sessionId } = params;
 
     let index = await this.readIndex();
 
-    // Filter
+    // Filter by hasError
     if (hasError !== undefined) {
       index = index.filter((s) => s.hasError === hasError);
+    }
+
+    // Filter by sessionId (case-insensitive substring, no file I/O needed)
+    if (sessionId !== undefined) {
+      const needle = sessionId.toLowerCase();
+      index = index.filter((s) => s.sessionId.toLowerCase().includes(needle));
     }
 
     // Sort: most recent first (descending createdAt)
@@ -95,12 +105,21 @@ export class FileTraceStore implements TraceStore {
   }
 
   private async readIndex(): Promise<TraceSummary[]> {
+    let raw: string;
     try {
-      const raw = await fs.readFile(this.indexPath, 'utf-8');
-      return JSON.parse(raw) as TraceSummary[];
+      raw = await fs.readFile(this.indexPath, 'utf-8');
     } catch (err: unknown) {
       if (isNodeError(err) && err.code === 'ENOENT') return [];
       throw err;
+    }
+
+    try {
+      return JSON.parse(raw) as TraceSummary[];
+    } catch {
+      // index.json exists but contains invalid JSON (e.g. partial write).
+      // Treat as empty so the next saveTrace can recover by rewriting it.
+      console.warn('[FileTraceStore] index.json is corrupt — treating as empty.');
+      return [];
     }
   }
 

@@ -44,15 +44,17 @@ export function createRoutes(store: TraceStore): Router {
 
   // ---------------------------------------------------------------------------
   // GET /api/traces — list trace summaries
-  // Query params: limit (number), cursor (string), hasError (boolean)
+  // Query params: limit (number), cursor (string), hasError (boolean),
+  //               sessionId (string, case-insensitive substring match)
   // ---------------------------------------------------------------------------
   router.get('/', async (req: Request, res: Response): Promise<void> => {
     const limit = parsePositiveInt(req.query['limit'] as string | undefined, 20);
     const cursor = (req.query['cursor'] as string | undefined) || undefined;
     const hasError = parseBooleanParam(req.query['hasError'] as string | undefined);
+    const sessionId = (req.query['sessionId'] as string | undefined) || undefined;
 
     try {
-      const result = await store.listTraces({ limit, cursor, hasError });
+      const result = await store.listTraces({ limit, cursor, hasError, sessionId });
       res.json(result);
     } catch (err) {
       console.error('[GET /api/traces]', err);
