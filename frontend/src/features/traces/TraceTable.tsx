@@ -31,8 +31,8 @@ export function TraceTable({ traces }: TraceTableProps) {
             <th>Trace ID</th>
             <th>Session</th>
             <th>Created</th>
-            <th>Latency</th>
-            <th>Tokens</th>
+            <th style={{ textAlign: 'right' }}>Latency</th>
+            <th style={{ textAlign: 'right' }}>Tokens</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -40,21 +40,34 @@ export function TraceTable({ traces }: TraceTableProps) {
           {traces.map((t) => (
             <tr key={t.traceId} onClick={() => navigate(`/traces/${t.traceId}`)}>
               <td>
+                {/* Accent colour + tooltip of full ID signals this is a link */}
                 <span
-                  className="text-mono truncate"
-                  style={{ maxWidth: 200, display: 'block', color: 'var(--text-muted)' }}
+                  className="text-mono"
+                  title={t.traceId}
+                  style={{ color: 'var(--accent-hover)', letterSpacing: '-0.01em' }}
                 >
-                  {t.traceId}
+                  {t.traceId.length > 22 ? t.traceId.slice(0, 22) + '…' : t.traceId}
                 </span>
               </td>
               <td>
-                <span className="text-muted">{t.sessionId}</span>
+                <span className="text-mono text-sm" style={{ color: 'var(--text-muted)' }}>
+                  {t.sessionId}
+                </span>
               </td>
               <td>
-                <span className="text-muted text-sm">{timeAgo(t.createdAt)}</span>
+                <span
+                  className="text-muted text-sm"
+                  title={new Date(t.createdAt).toLocaleString()}
+                >
+                  {timeAgo(t.createdAt)}
+                </span>
               </td>
-              <td>{formatLatency(t.totalLatency)}</td>
-              <td>{t.totalTokens.toLocaleString()}</td>
+              <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+                {formatLatency(t.totalLatency)}
+              </td>
+              <td style={{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+                {t.totalTokens.toLocaleString()}
+              </td>
               <td>
                 <Badge variant={t.hasError ? 'error' : 'success'}>
                   {t.hasError ? 'Error' : 'OK'}

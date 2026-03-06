@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getTrace } from '../lib/api';
 import type { AgentTrace, AgentStep } from '../lib/api';
 import { ErrorState } from '../components/ui/ErrorState';
+import { LoadingState } from '../components/ui/LoadingState';
 import { TraceHeader } from '../features/trace-detail/TraceHeader';
 import { ExecutionTimeline } from '../features/trace-detail/ExecutionTimeline';
 import { StepDetailPanel } from '../features/trace-detail/StepDetailPanel';
@@ -51,13 +52,9 @@ export default function TraceDetailPage() {
         <div className="mb-4">
           <Link to="/traces" className="text-muted text-sm">← Traces</Link>
         </div>
-        <div className="flex-col gap-3">
-          <div className="skeleton" style={{ height: 72, borderRadius: 8 }} />
-          <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16 }}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="skeleton" style={{ height: 44, borderRadius: 6 }} />
-            ))}
-          </div>
+        <div className="flex-col gap-4">
+          <div className="skeleton" style={{ height: 76, borderRadius: 8 }} />
+          <LoadingState rows={8} />
         </div>
       </div>
     );
@@ -145,7 +142,8 @@ export default function TraceDetailPage() {
         </div>
       </div>
 
-      {/* Bottom tabs: placeholder sections */}
+      {/* Bottom section — graph + diff tabs */}
+      <div className="divider" />
       <div className="tabs">
         <button
           className={`tab${activeTab === 'graph' ? ' tab-active' : ''}`}

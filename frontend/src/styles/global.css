@@ -28,6 +28,8 @@ html, body, #root { height: 100%; }
   --radius:        6px;
   --radius-md:     8px;
   --radius-lg:     12px;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.24), 0 1px 2px rgba(0,0,0,0.16);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.28), 0 2px 4px rgba(0,0,0,0.16);
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────────── */
@@ -103,6 +105,7 @@ a:hover { color: var(--accent-hover); }
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 20px;
+  box-shadow: var(--shadow-sm);
 }
 .card-title {
   font-size: 15px;
@@ -116,7 +119,10 @@ a:hover { color: var(--accent-hover); }
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s;
 }
+.stat-card:hover { border-color: #484f58; }
 .stat-card-label {
   font-size: 12px;
   font-weight: 600;
@@ -138,6 +144,13 @@ a:hover { color: var(--accent-hover); }
   margin-top: 6px;
   font-size: 12px;
   color: var(--text-subtle);
+}
+/* Skeleton placeholder shown while stat value is loading */
+.stat-card-skeleton {
+  height: 32px;
+  width: 55%;
+  margin-top: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* ── Empty state ───────────────────────────────────────────────────────────── */
@@ -204,6 +217,7 @@ a:hover { color: var(--accent-hover); }
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 .table {
   width: 100%;
@@ -229,7 +243,15 @@ a:hover { color: var(--accent-hover); }
   vertical-align: middle;
 }
 .table tr:last-child td { border-bottom: none; }
-.table tbody tr:hover { background: var(--surface-2); cursor: pointer; }
+.table tbody tr {
+  transition: background 0.1s;
+  cursor: pointer;
+}
+.table tbody tr:hover { background: var(--surface-2); }
+/* Subtle left-border accent on hover to reinforce clickability */
+.table tbody tr:hover td:first-child {
+  box-shadow: inset 2px 0 0 var(--accent);
+}
 
 /* ── Form elements ─────────────────────────────────────────────────────────── */
 .input {
@@ -303,10 +325,11 @@ a:hover { color: var(--accent-hover); }
   display: flex;
   border-bottom: 1px solid var(--border);
   margin-bottom: 20px;
+  gap: 4px;
 }
 .tab {
-  padding: 9px 20px;
-  font-size: 14px;
+  padding: 9px 18px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-muted);
   border: none;
@@ -314,10 +337,11 @@ a:hover { color: var(--accent-hover); }
   cursor: pointer;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
-  transition: color 0.15s;
+  transition: color 0.15s, border-color 0.15s;
   font-family: var(--font);
+  border-radius: var(--radius) var(--radius) 0 0;
 }
-.tab:hover { color: var(--text); }
+.tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
 .tab-active { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* ── Page layout ───────────────────────────────────────────────────────────── */
@@ -374,6 +398,33 @@ a:hover { color: var(--accent-hover); }
 .font-semibold { font-weight: 600; }
 .w-full        { width: 100%; }
 .truncate      { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Scrollbars (webkit + firefox) ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #484f58; }
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+/* ── Focus visible ──────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid rgba(47, 129, 247, 0.65);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Section label — eyebrow text above a group ────────────────────────────── */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  margin-bottom: 12px;
+}
+
+/* ── Horizontal divider ─────────────────────────────────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 28px 0; }
 
 /* ── React Flow — dark theme overrides ─────────────────────────────────────── */
 /* Applied globally so CSS Modules components can still affect RF internals.   */

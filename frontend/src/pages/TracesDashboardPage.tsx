@@ -45,23 +45,27 @@ export default function TracesDashboardPage() {
         <div className="grid-4 mb-8">
           <StatCard
             label="Total Traces"
-            value={statsLoading ? '—' : (stats ? stats.totalTraces.toLocaleString() : '—')}
+            loading={statsLoading}
+            value={stats ? stats.totalTraces.toLocaleString() : '—'}
             sub={stats ? `${stats.last24hTraces ?? 0} in last 24h` : undefined}
           />
           <StatCard
             label="Error Rate"
-            value={statsLoading ? '—' : (stats ? fmtRate(stats.errorRate) : '—')}
+            loading={statsLoading}
+            value={stats ? fmtRate(stats.errorRate) : '—'}
             sub={stats ? `${stats.errorTraces} traces with errors` : undefined}
             alert={!!stats && stats.errorRate > 0.1}
           />
           <StatCard
             label="Avg Latency"
-            value={statsLoading ? '—' : (stats ? fmtMs(stats.avgLatency) : '—')}
+            loading={statsLoading}
+            value={stats ? fmtMs(stats.avgLatency) : '—'}
             sub="Per trace"
           />
           <StatCard
             label="Avg Tokens"
-            value={statsLoading ? '—' : (stats ? fmtNum(stats.avgTokens) : '—')}
+            loading={statsLoading}
+            value={stats ? fmtNum(stats.avgTokens) : '—'}
             sub="Per trace"
           />
         </div>

@@ -1,6 +1,8 @@
 .header {
   height: 52px;
-  background: var(--surface);
+  background: rgba(22, 27, 34, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
