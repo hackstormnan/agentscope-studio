@@ -169,6 +169,36 @@ a:hover { color: var(--accent-hover); }
   line-height: 1.6;
 }
 
+/* ── Error state ───────────────────────────────────────────────────────────── */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  border: 1px solid rgba(248, 81, 73, 0.2);
+  background: rgba(248, 81, 73, 0.04);
+  border-radius: var(--radius-md);
+}
+.error-state-icon {
+  font-size: 28px;
+  color: var(--error);
+  margin-bottom: 12px;
+}
+.error-state-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.error-state-message {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
 /* ── Table ─────────────────────────────────────────────────────────────────── */
 .table-wrapper {
   overflow-x: auto;

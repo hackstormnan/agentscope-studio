@@ -1,54 +1,23 @@
-import { useEffect, useState } from 'react';
 import { StatCard } from '../components/ui/StatCard';
 import { EmptyState } from '../components/ui/EmptyState';
+import { ErrorState } from '../components/ui/ErrorState';
 import { Button } from '../components/ui/Button';
 import { TraceTable } from '../features/traces/TraceTable';
 import { TraceFilters } from '../features/traces/TraceFilters';
-import type { FiltersValue } from '../features/traces/TraceFilters';
-import { getTraceStats, listTraces } from '../lib/api';
-import type { DashboardStats, TraceSummary } from '../lib/api';
+import { useTraces } from '../features/traces/useTraces';
 import styles from './TracesDashboardPage.module.css';
 
-function fmtRate(rate: number)    { return `${(rate * 100).toFixed(1)}%`; }
-function fmtMs(ms: number)        { return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(2)}s`; }
-function fmtNum(n: number)        { return Math.round(n).toLocaleString(); }
+function fmtRate(rate: number) { return `${(rate * 100).toFixed(1)}%`; }
+function fmtMs(ms: number)     { return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(2)}s`; }
+function fmtNum(n: number)     { return Math.round(n).toLocaleString(); }
 
 export default function TracesDashboardPage() {
-  const [stats,      setStats]      = useState<DashboardStats | null>(null);
-  const [traces,     setTraces]     = useState<TraceSummary[]>([]);
-  const [nextCursor, setNextCursor] = useState<string | undefined>();
-  const [loading,    setLoading]    = useState(true);
-  const [filters,    setFilters]    = useState<FiltersValue>({ sessionId: '', hasError: '' });
-
-  useEffect(() => {
-    getTraceStats().then(setStats);
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    listTraces({
-      limit: 25,
-      sessionId: filters.sessionId || undefined,
-      hasError:  filters.hasError === '' ? undefined : filters.hasError === 'true',
-    })
-      .then(({ items, nextCursor: nc }) => {
-        setTraces(items);
-        setNextCursor(nc);
-      })
-      .finally(() => setLoading(false));
-  }, [filters]);
-
-  async function loadMore() {
-    if (!nextCursor) return;
-    const { items, nextCursor: nc } = await listTraces({
-      limit:     25,
-      cursor:    nextCursor,
-      sessionId: filters.sessionId || undefined,
-      hasError:  filters.hasError === '' ? undefined : filters.hasError === 'true',
-    });
-    setTraces((prev) => [...prev, ...items]);
-    setNextCursor(nc);
-  }
+  const {
+    stats, statsLoading, statsError,
+    traces, tracesLoading, tracesError,
+    hasMore, filters, setFilters,
+    refresh, loadMore,
+  } = useTraces();
 
   return (
     <div className="page">
@@ -58,35 +27,45 @@ export default function TracesDashboardPage() {
           <div className="page-title">Traces</div>
           <div className="page-subtitle">All recorded agent sessions</div>
         </div>
-        <Button variant="secondary" onClick={() => window.location.reload()}>
+        <Button variant="secondary" onClick={refresh}>
           Refresh
         </Button>
       </div>
 
       {/* Stats row */}
-      <div className="grid-4 mb-8">
-        <StatCard
-          label="Total Traces"
-          value={stats ? stats.totalTraces.toLocaleString() : '—'}
-          sub={stats ? `${stats.last24hTraces ?? 0} in last 24h` : undefined}
-        />
-        <StatCard
-          label="Error Rate"
-          value={stats ? fmtRate(stats.errorRate) : '—'}
-          sub={stats ? `${stats.errorTraces} traces with errors` : undefined}
-          alert={!!stats && stats.errorRate > 0.1}
-        />
-        <StatCard
-          label="Avg Latency"
-          value={stats ? fmtMs(stats.avgLatency) : '—'}
-          sub="Per trace"
-        />
-        <StatCard
-          label="Avg Tokens"
-          value={stats ? fmtNum(stats.avgTokens) : '—'}
-          sub="Per trace"
-        />
-      </div>
+      {statsError ? (
+        <div className="mb-8">
+          <ErrorState
+            title="Failed to load stats"
+            message={statsError}
+            onRetry={refresh}
+          />
+        </div>
+      ) : (
+        <div className="grid-4 mb-8">
+          <StatCard
+            label="Total Traces"
+            value={statsLoading ? '—' : (stats ? stats.totalTraces.toLocaleString() : '—')}
+            sub={stats ? `${stats.last24hTraces ?? 0} in last 24h` : undefined}
+          />
+          <StatCard
+            label="Error Rate"
+            value={statsLoading ? '—' : (stats ? fmtRate(stats.errorRate) : '—')}
+            sub={stats ? `${stats.errorTraces} traces with errors` : undefined}
+            alert={!!stats && stats.errorRate > 0.1}
+          />
+          <StatCard
+            label="Avg Latency"
+            value={statsLoading ? '—' : (stats ? fmtMs(stats.avgLatency) : '—')}
+            sub="Per trace"
+          />
+          <StatCard
+            label="Avg Tokens"
+            value={statsLoading ? '—' : (stats ? fmtNum(stats.avgTokens) : '—')}
+            sub="Per trace"
+          />
+        </div>
+      )}
 
       {/* Filters */}
       <div className="mb-4">
@@ -94,7 +73,13 @@ export default function TracesDashboardPage() {
       </div>
 
       {/* Trace list */}
-      {loading ? (
+      {tracesError ? (
+        <ErrorState
+          title="Failed to load traces"
+          message={tracesError}
+          onRetry={refresh}
+        />
+      ) : tracesLoading ? (
         <div className={styles.skeletonList}>
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="skeleton" style={{ height: 48, borderRadius: 6 }} />
@@ -109,7 +94,7 @@ export default function TracesDashboardPage() {
       ) : (
         <>
           <TraceTable traces={traces} />
-          {nextCursor && (
+          {hasMore && (
             <div className="flex justify-center mt-6">
               <Button variant="secondary" onClick={loadMore}>
                 Load more

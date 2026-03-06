@@ -71,52 +71,47 @@ export interface ListParams {
 // In prod: set VITE_API_BASE env var to the deployed API origin.
 const BASE: string = import.meta.env.VITE_API_BASE ?? '/api';
 
+/** Thrown when the server responds with a non-2xx status. */
+export class ApiError extends Error {
+  constructor(public readonly status: number, message: string) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}${path}`);
   if (!res.ok) {
-    throw new Error(`[api] ${res.status} ${res.statusText} — ${path}`);
+    throw new ApiError(res.status, `${res.status} ${res.statusText}`);
   }
   return res.json() as Promise<T>;
 }
 
 // ── API methods ──────────────────────────────────────────────────────────────
+// getTraceStats and listTraces throw on failure — callers must handle errors
+// and can show proper error UI rather than silent fallbacks.
+// getTrace returns null on 404 (trace not found) and throws on other errors.
 
-export async function getTraceStats(): Promise<DashboardStats> {
-  try {
-    return await get<DashboardStats>('/stats');
-  } catch {
-    // Return zeroed stats when the backend is unreachable (e.g. during UI dev).
-    return {
-      totalTraces: 0,
-      errorTraces: 0,
-      errorRate: 0,
-      avgLatency: 0,
-      avgTokens: 0,
-      last24hTraces: 0,
-      last24hErrorTraces: 0,
-    };
-  }
+export function getTraceStats(): Promise<DashboardStats> {
+  return get<DashboardStats>('/stats');
 }
 
-export async function listTraces(params: ListParams = {}): Promise<ListResult> {
+export function listTraces(params: ListParams = {}): Promise<ListResult> {
   const qs = new URLSearchParams();
-  if (params.limit    !== undefined) qs.set('limit',    String(params.limit));
-  if (params.cursor   !== undefined) qs.set('cursor',   params.cursor);
-  if (params.hasError !== undefined) qs.set('hasError', String(params.hasError));
+  if (params.limit     !== undefined) qs.set('limit',     String(params.limit));
+  if (params.cursor    !== undefined) qs.set('cursor',    params.cursor);
+  if (params.hasError  !== undefined) qs.set('hasError',  String(params.hasError));
   if (params.sessionId !== undefined) qs.set('sessionId', params.sessionId);
 
   const query = qs.toString();
-  try {
-    return await get<ListResult>(`/traces${query ? `?${query}` : ''}`);
-  } catch {
-    return { items: [] };
-  }
+  return get<ListResult>(`/traces${query ? `?${query}` : ''}`);
 }
 
 export async function getTrace(traceId: string): Promise<AgentTrace | null> {
   try {
     return await get<AgentTrace>(`/traces/${encodeURIComponent(traceId)}`);
-  } catch {
-    return null;
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 404) return null;
+    throw err;
   }
 }
