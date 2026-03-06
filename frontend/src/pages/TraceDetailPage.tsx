@@ -4,7 +4,7 @@ import { getTrace } from '../lib/api';
 import type { AgentTrace, AgentStep } from '../lib/api';
 import { ErrorState } from '../components/ui/ErrorState';
 import { TraceHeader } from '../features/trace-detail/TraceHeader';
-import { StepList } from '../features/trace-detail/StepList';
+import { ExecutionTimeline } from '../features/trace-detail/ExecutionTimeline';
 import { StepDetailPanel } from '../features/trace-detail/StepDetailPanel';
 import styles from './TraceDetailPage.module.css';
 
@@ -125,8 +125,13 @@ export default function TraceDetailPage() {
       {/* Two-panel: step list + step detail */}
       <div className={styles.panels}>
         <div className={styles.panel}>
-          <div className={styles.panelTitle}>Execution Timeline</div>
-          <StepList
+          <div className={styles.panelTitle}>
+            Execution Timeline
+            <span style={{ marginLeft: 8, fontWeight: 400, color: 'var(--text-subtle)' }}>
+              ({trace.steps.length})
+            </span>
+          </div>
+          <ExecutionTimeline
             steps={trace.steps}
             rootStepId={trace.rootStepId}
             activeStepId={activeStep?.stepId ?? null}

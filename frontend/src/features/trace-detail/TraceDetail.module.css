@@ -152,6 +152,155 @@
   gap: 4px;
 }
 
+/* ── Execution Timeline container ──────────────────────────────────────────── */
+.etContainer {
+  position: relative;
+  overflow-y: auto;
+  max-height: 620px;
+  padding: 12px 16px;
+}
+
+/* Vertical track line — absolutely positioned behind all dots */
+.etTrack {
+  position: absolute;
+  left: 29px;  /* 16px padding + half of 28px dot-column = 30, minus 1 for optical centering */
+  top: 28px;
+  bottom: 28px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.etItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.etItem:last-child { margin-bottom: 0; }
+
+/* Fixed-width left column holding the dot */
+.etDotCol {
+  width: 28px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 13px; /* vertically centers dot against card top content */
+}
+
+.etDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  /* ring punches out from track line — color set via inline style */
+  box-shadow: 0 0 0 2px var(--bg);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* The card — full-width button acting as the clickable row */
+.etCard {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--text);
+  transition: border-color 0.12s, background 0.12s;
+  min-width: 0;
+  width: 100%;
+}
+.etCard:hover { background: var(--surface-2); }
+.etCardActive {
+  border-color: var(--accent) !important;
+  background: var(--accent-bg) !important;
+}
+
+.etCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.etCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.etCardRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.etLatency {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.etStepId {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-subtle);
+}
+
+/* ── Step Type Badge ────────────────────────────────────────────────────────── */
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Root chip shown next to type badge */
+.rootChip {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid rgba(47, 129, 247, 0.25);
+  border-radius: 8px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+
+/* ── Step Status Indicator ──────────────────────────────────────────────────── */
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statusRunning {
+  animation: statusPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.35); }
+}
+
 /* ── JSON block ─────────────────────────────────────────────────────────────── */
 .codeBlock {
   background: var(--surface-2);
