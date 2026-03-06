@@ -301,6 +301,15 @@
   50%       { opacity: 0.5; transform: scale(1.35); }
 }
 
+/* ── Reasoning Graph container ──────────────────────────────────────────────── */
+.graphContainer {
+  height: 480px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
 /* ── JSON block ─────────────────────────────────────────────────────────────── */
 .codeBlock {
   background: var(--surface-2);

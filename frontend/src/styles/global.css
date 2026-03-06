@@ -374,3 +374,41 @@ a:hover { color: var(--accent-hover); }
 .font-semibold { font-weight: 600; }
 .w-full        { width: 100%; }
 .truncate      { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── React Flow — dark theme overrides ─────────────────────────────────────── */
+/* Applied globally so CSS Modules components can still affect RF internals.   */
+.react-flow__background { background: var(--bg) !important; }
+
+.react-flow__controls {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
+}
+.react-flow__controls-button {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border) !important;
+  color: var(--text-muted) !important;
+  fill: var(--text-muted) !important;
+}
+.react-flow__controls-button:last-child { border-bottom: none !important; }
+.react-flow__controls-button:hover {
+  background: var(--surface-3) !important;
+  fill: var(--text) !important;
+}
+
+.react-flow__edge-path {
+  stroke: var(--border) !important;
+  stroke-width: 1.5 !important;
+}
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--accent) !important;
+  stroke-width: 2 !important;
+}
+.react-flow__edge-textbg { fill: var(--surface) !important; }
+.react-flow__edge-text   { fill: var(--text-muted) !important; }
+
+/* Remove default node selection ring — our nodes handle their own selected state */
+.react-flow__node.selected > div,
+.react-flow__node:focus    > div { box-shadow: none !important; }

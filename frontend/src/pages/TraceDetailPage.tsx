@@ -6,6 +6,7 @@ import { ErrorState } from '../components/ui/ErrorState';
 import { TraceHeader } from '../features/trace-detail/TraceHeader';
 import { ExecutionTimeline } from '../features/trace-detail/ExecutionTimeline';
 import { StepDetailPanel } from '../features/trace-detail/StepDetailPanel';
+import { ReasoningGraph } from '../features/trace-detail/ReasoningGraph';
 import styles from './TraceDetailPage.module.css';
 
 export default function TraceDetailPage() {
@@ -111,6 +112,7 @@ export default function TraceDetailPage() {
   }
 
   const llmStepCount = trace.steps.filter((s) => s.type === 'llm').length;
+  // ↑ used by the Prompt Diff Viewer tab below
 
   return (
     <div className="page">
@@ -162,14 +164,12 @@ export default function TraceDetailPage() {
       </div>
 
       {activeTab === 'graph' && (
-        <div className="placeholder-panel">
-          <div className="placeholder-panel-title">Reasoning Graph</div>
-          <div>A visual DAG of step dependencies will render here.</div>
-          <div style={{ marginTop: 8, fontFamily: 'var(--font-mono)', fontSize: 12 }}>
-            {trace.steps.length} nodes · root:{' '}
-            <span className="text-mono">{trace.rootStepId.slice(0, 12)}…</span>
-          </div>
-        </div>
+        <ReasoningGraph
+          steps={trace.steps}
+          rootStepId={trace.rootStepId}
+          activeStepId={activeStep?.stepId ?? null}
+          onSelect={setActiveStep}
+        />
       )}
 
       {activeTab === 'diff' && (

@@ -1,0 +1,42 @@
+{
+  "traceId": "demo-trace-1",
+  "sessionId": "test-session",
+  "rootStepId": "step-1",
+  "steps": [
+    {
+      "stepId": "step-1",
+      "type": "planner",
+      "status": "success",
+      "latency": 50,
+      "children": [
+        "step-2"
+      ],
+      "input": {
+        "task": "test"
+      },
+      "output": {
+        "decision": "call llm"
+      }
+    },
+    {
+      "stepId": "step-2",
+      "parentId": "step-1",
+      "type": "llm",
+      "status": "success",
+      "latency": 200,
+      "children": [],
+      "input": {
+        "prompt": "hello"
+      },
+      "output": {
+        "text": "world"
+      }
+    }
+  ],
+  "metadata": {
+    "model": "gpt-test",
+    "totalLatency": 250,
+    "totalTokens": 100,
+    "cost": 0.001
+  }
+}
