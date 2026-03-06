@@ -310,6 +310,122 @@
   background: var(--bg);
 }
 
+/* ── Prompt Diff Viewer ─────────────────────────────────────────────────────── */
+.diffViewer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.diffToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.diffToolbarLeft  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.diffToolbarRight { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+.diffPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-subtle);
+}
+
+.diffPanelStep {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Unified diff code area */
+.diffCode {
+  overflow-y: auto;
+  max-height: 380px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.diffLine {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 1px 14px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.lineMark {
+  flex-shrink: 0;
+  width: 10px;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.lineAdded   { background: rgba(63,  185, 80,  0.1); color: var(--success); }
+.lineRemoved { background: rgba(248, 81,  73,  0.1); color: var(--error);   }
+.lineUnchanged { color: var(--text-muted); }
+
+/* "No differences" notice */
+.diffSame {
+  padding: 20px 16px;
+  font-size: 13px;
+  color: var(--text-subtle);
+  text-align: center;
+}
+
+/* No content / empty state inside viewer */
+.diffEmpty {
+  padding: 32px 16px;
+  font-size: 13px;
+  color: var(--text-subtle);
+  text-align: center;
+}
+
+/* Raw view — side-by-side pre blocks */
+.diffRawPanels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.diffRawPanel {
+  overflow-y: auto;
+  max-height: 380px;
+}
+.diffRawPanel:first-child {
+  border-right: 1px solid var(--border);
+}
+
+.diffRawCode {
+  margin: 0;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.65;
+}
+
 /* ── JSON block ─────────────────────────────────────────────────────────────── */
 .codeBlock {
   background: var(--surface-2);

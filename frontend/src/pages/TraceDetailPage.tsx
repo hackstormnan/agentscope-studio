@@ -7,6 +7,7 @@ import { TraceHeader } from '../features/trace-detail/TraceHeader';
 import { ExecutionTimeline } from '../features/trace-detail/ExecutionTimeline';
 import { StepDetailPanel } from '../features/trace-detail/StepDetailPanel';
 import { ReasoningGraph } from '../features/trace-detail/ReasoningGraph';
+import { PromptDiffViewer } from '../features/trace-detail/PromptDiffViewer';
 import styles from './TraceDetailPage.module.css';
 
 export default function TraceDetailPage() {
@@ -111,9 +112,6 @@ export default function TraceDetailPage() {
     );
   }
 
-  const llmStepCount = trace.steps.filter((s) => s.type === 'llm').length;
-  // ↑ used by the Prompt Diff Viewer tab below
-
   return (
     <div className="page">
       {/* Breadcrumb */}
@@ -173,13 +171,7 @@ export default function TraceDetailPage() {
       )}
 
       {activeTab === 'diff' && (
-        <div className="placeholder-panel">
-          <div className="placeholder-panel-title">Prompt Diff Viewer</div>
-          <div>Side-by-side diff of prompt mutations across LLM steps will render here.</div>
-          <div style={{ marginTop: 8, fontFamily: 'var(--font-mono)', fontSize: 12 }}>
-            {llmStepCount} LLM step{llmStepCount !== 1 ? 's' : ''} detected
-          </div>
-        </div>
+        <PromptDiffViewer steps={trace.steps} activeStep={activeStep} />
       )}
     </div>
   );
