@@ -3,6 +3,7 @@ import type { TraceStore } from '../../storage';
 import type { ReplayStore } from '../../replay-store';
 import type { AgentTrace } from '../../../core/trace-model';
 import { createTraceReplaysHandler } from './replays';
+import { traceEvaluationsHandler, stepEvaluationsHandler } from './evaluations';
 
 /**
  * Registers all /api/traces routes.
@@ -77,6 +78,17 @@ export function createTracesRouter(
   if (replayStore) {
     router.get('/:traceId/replays', createTraceReplaysHandler(replayStore));
   }
+
+  // ---------------------------------------------------------------------------
+  // GET /api/traces/:traceId/steps/:stepId/evaluations — evaluations for a step
+  // Mounted before /:traceId/evaluations and /:traceId to avoid shadowing.
+  // ---------------------------------------------------------------------------
+  router.get('/:traceId/steps/:stepId/evaluations', stepEvaluationsHandler);
+
+  // ---------------------------------------------------------------------------
+  // GET /api/traces/:traceId/evaluations — evaluations for a trace
+  // ---------------------------------------------------------------------------
+  router.get('/:traceId/evaluations', traceEvaluationsHandler);
 
   // ---------------------------------------------------------------------------
   // GET /api/traces/:traceId — retrieve a single full trace

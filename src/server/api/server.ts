@@ -3,6 +3,7 @@ import { FileTraceStore } from '../storage';
 import { FileReplayStore } from '../replay-store';
 import { createTracesRouter } from './routes/traces';
 import { replaysRouter } from './routes/replays';
+import { evaluationsRouter } from './routes/evaluations';
 import { computeStats } from './services/stats';
 
 const PORT = 4000;
@@ -18,8 +19,9 @@ const store       = new FileTraceStore();   // data/traces/
 const replayStore = new FileReplayStore();  // data/replays/ — shared with traces sub-route
 
 // Mount routes
-app.use('/api/traces',  createTracesRouter(store, replayStore));
-app.use('/api/replays', replaysRouter);
+app.use('/api/traces',      createTracesRouter(store, replayStore));
+app.use('/api/replays',     replaysRouter);
+app.use('/api/evaluations', evaluationsRouter);
 
 // ---------------------------------------------------------------------------
 // GET /api/stats — dashboard-level aggregate metrics

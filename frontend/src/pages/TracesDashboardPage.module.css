@@ -3,3 +3,57 @@
   flex-direction: column;
   gap: 8px;
 }
+
+/* ── Evaluation summary strip ────────────────────────────────────────────── */
+.evalSummary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+}
+
+.evalSummaryLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+}
+
+.evalSummaryStats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.evalStat {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.evalStatValue {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.evalStatLabel {
+  font-size: 11px;
+  color: var(--text-subtle);
+}
+
+.evalDivider {
+  width: 1px;
+  height: 14px;
+  background: var(--border);
+  flex-shrink: 0;
+}
