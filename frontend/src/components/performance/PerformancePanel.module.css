@@ -1,0 +1,116 @@
+/* ── Outer grid ─────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* ── Metric card ────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+}
+
+.cardValue {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.cardSub {
+  font-size: 11px;
+  color: var(--text-subtle);
+}
+
+/* ── Section header ─────────────────────────────────────────────────────────── */
+.sectionHeader {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  margin-bottom: 10px;
+}
+
+/* ── Outlier list ───────────────────────────────────────────────────────────── */
+.outlierList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.outlierRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.outlierRowSlow {
+  border-left: 3px solid var(--warning);
+}
+
+.outlierRowHeavy {
+  border-left: 3px solid var(--accent);
+}
+
+.outlierStepId {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.outlierTag {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.tagSlow {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid rgba(227, 179, 65, 0.3);
+}
+
+.tagHeavy {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid rgba(47, 129, 247, 0.25);
+}
+
+/* ── Empty / loading ────────────────────────────────────────────────────────── */
+.emptyNote {
+  font-size: 12px;
+  color: var(--text-subtle);
+  font-style: italic;
+  padding: 8px 0;
+}

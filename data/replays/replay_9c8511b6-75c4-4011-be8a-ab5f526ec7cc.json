@@ -1,0 +1,22 @@
+{
+  "replayId": "replay_9c8511b6-75c4-4011-be8a-ab5f526ec7cc",
+  "sourceTraceId": "trace-test-1",
+  "targetStepId": "step-2",
+  "status": "success",
+  "startedAt": "2026-03-07T02:34:29.716Z",
+  "completedAt": "2026-03-07T02:34:29.717Z",
+  "producedStep": {
+    "originalStepId": "step-2",
+    "originalType": "llm",
+    "originalInput": {
+      "prompt": "Write a short hello message"
+    },
+    "originalOutput": {
+      "text": "Hello world!"
+    },
+    "appliedOverrides": {},
+    "replayedInput": {
+      "prompt": "Write a short hello message"
+    }
+  }
+}

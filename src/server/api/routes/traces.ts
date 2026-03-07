@@ -4,6 +4,7 @@ import type { ReplayStore } from '../../replay-store';
 import type { AgentTrace } from '../../../core/trace-model';
 import { createTraceReplaysHandler } from './replays';
 import { traceEvaluationsHandler, stepEvaluationsHandler } from './evaluations';
+import { CostLatencyAnalyzer } from '../../analysis';
 
 /**
  * Registers all /api/traces routes.
@@ -78,6 +79,26 @@ export function createTracesRouter(
   if (replayStore) {
     router.get('/:traceId/replays', createTraceReplaysHandler(replayStore));
   }
+
+  // ---------------------------------------------------------------------------
+  // GET /api/traces/:traceId/analysis — cost and latency analysis for a trace
+  // Mounted before /:traceId to avoid shadowing.
+  // ---------------------------------------------------------------------------
+  const analyzer = new CostLatencyAnalyzer(store);
+  router.get('/:traceId/analysis', async (req: Request, res: Response): Promise<void> => {
+    const { traceId } = req.params;
+    try {
+      const result = await analyzer.analyze(traceId);
+      if (!result) {
+        res.status(404).json({ error: `Trace not found: ${traceId}` });
+        return;
+      }
+      res.json(result);
+    } catch (err) {
+      console.error(`[GET /api/traces/${traceId}/analysis]`, err);
+      res.status(500).json({ error: 'Failed to analyze trace.' });
+    }
+  });
 
   // ---------------------------------------------------------------------------
   // GET /api/traces/:traceId/steps/:stepId/evaluations — evaluations for a step
