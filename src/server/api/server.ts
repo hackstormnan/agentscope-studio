@@ -1,6 +1,9 @@
 import express, { Request, Response } from 'express';
 import { FileTraceStore } from '../storage';
-import { createRoutes } from './routes';
+import { FileReplayStore } from '../replay-store';
+import { ReplayService } from '../replay';
+import { createTracesRouter } from './routes/traces';
+import { createReplayRoutes } from './routes/replays';
 import { computeStats } from './services/stats';
 
 const PORT = 4000;
@@ -10,11 +13,14 @@ const app = express();
 // Parse JSON bodies
 app.use(express.json());
 
-// Initialise storage (writes to data/traces/ relative to process.cwd())
-const store = new FileTraceStore();
+// Initialise storage
+const store         = new FileTraceStore();           // data/traces/
+const replayStore   = new FileReplayStore();          // data/replays/
+const replayService = new ReplayService(store);
 
-// Mount trace routes
-app.use('/api/traces', createRoutes(store));
+// Mount routes
+app.use('/api/traces',  createTracesRouter(store, replayStore));
+app.use('/api/replays', createReplayRoutes(replayService, replayStore));
 
 // ---------------------------------------------------------------------------
 // GET /api/stats — dashboard-level aggregate metrics
