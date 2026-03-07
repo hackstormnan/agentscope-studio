@@ -1,0 +1,279 @@
+/* ── Outer panel wrapper ─────────────────────────────────────────────────────── */
+.panel {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+@media (max-width: 900px) {
+  .panel { grid-template-columns: 1fr; }
+}
+
+/* ── Shared section header ──────────────────────────────────────────────────── */
+.sectionHeader {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  padding: 10px 16px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Left column: form area ─────────────────────────────────────────────────── */
+.formCol {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  .formCol { border-right: none; border-bottom: 1px solid var(--border); }
+}
+
+.formBody {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Target summary chip ────────────────────────────────────────────────────── */
+.targetSummary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.targetLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+}
+
+.targetId {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.noTarget {
+  font-size: 13px;
+  color: var(--text-subtle);
+  font-style: italic;
+}
+
+/* ── Form field group ───────────────────────────────────────────────────────── */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fieldHint {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-subtle);
+}
+
+.textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 9px 12px;
+  outline: none;
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.6;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.textarea::placeholder { color: var(--text-subtle); }
+.textarea:focus { border-color: var(--accent); }
+.textareaError { border-color: var(--error) !important; }
+
+.jsonError {
+  font-size: 11px;
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reasonInput {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 7px 12px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+.reasonInput::placeholder { color: var(--text-subtle); }
+.reasonInput:focus { border-color: var(--accent); }
+
+/* ── Form actions ───────────────────────────────────────────────────────────── */
+.formActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+/* ── Submit feedback ────────────────────────────────────────────────────────── */
+.submitError {
+  padding: 10px 14px;
+  background: var(--error-bg);
+  border: 1px solid rgba(248, 81, 73, 0.25);
+  border-radius: var(--radius);
+  font-size: 12px;
+  color: var(--error);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.successBanner {
+  padding: 10px 14px;
+  background: var(--success-bg);
+  border: 1px solid rgba(63, 185, 80, 0.25);
+  border-radius: var(--radius);
+  font-size: 12px;
+  color: var(--success);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.bannerMono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+/* ── Right column: history ──────────────────────────────────────────────────── */
+.historyCol {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ── History item ───────────────────────────────────────────────────────────── */
+.historyItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-muted);
+  cursor: pointer;
+  background: transparent;
+  border-left: 2px solid transparent;
+  text-align: left;
+  font-family: var(--font);
+  color: var(--text);
+  transition: background 0.1s, border-left-color 0.1s;
+  width: 100%;
+}
+.historyItem:last-child { border-bottom: none; }
+.historyItem:hover { background: var(--surface-2); }
+.historyItemSelected {
+  background: var(--accent-bg) !important;
+  border-left-color: var(--accent);
+}
+
+.historyItemTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.historyReplayId {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.historyItemMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-subtle);
+}
+
+.historyStepId {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-subtle);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Status badge inline ────────────────────────────────────────────────────── */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+.statusSuccess { background: var(--success-bg); color: var(--success); border-color: rgba(63, 185, 80, 0.3); }
+.statusError   { background: var(--error-bg);   color: var(--error);   border-color: rgba(248, 81, 73, 0.3); }
+.statusPending { background: var(--surface-3);  color: var(--text-muted); border-color: var(--border); }
+.statusRunning { background: var(--warning-bg); color: var(--warning); border-color: rgba(227, 179, 65, 0.3); }
+
+/* ── Empty / loading states inside panel ────────────────────────────────────── */
+.historyEmpty {
+  padding: 32px 16px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-subtle);
+  flex: 1;
+}

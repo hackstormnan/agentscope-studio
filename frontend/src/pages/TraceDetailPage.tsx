@@ -9,6 +9,7 @@ import { ExecutionTimeline } from '../features/trace-detail/ExecutionTimeline';
 import { StepDetailPanel } from '../features/trace-detail/StepDetailPanel';
 import { ReasoningGraph } from '../features/trace-detail/ReasoningGraph';
 import { PromptDiffViewer } from '../features/trace-detail/PromptDiffViewer';
+import { ReplayPanel } from '../components/replay/ReplayPanel';
 import styles from './TraceDetailPage.module.css';
 
 export default function TraceDetailPage() {
@@ -18,7 +19,7 @@ export default function TraceDetailPage() {
   const [loading,    setLoading]    = useState(true);
   const [error,      setError]      = useState<string | null>(null);
   const [activeStep, setActiveStep] = useState<AgentStep | null>(null);
-  const [activeTab,  setActiveTab]  = useState<'graph' | 'diff'>('graph');
+  const [activeTab,  setActiveTab]  = useState<'graph' | 'diff' | 'replay'>('graph');
 
   useEffect(() => {
     if (!traceId) return;
@@ -157,6 +158,12 @@ export default function TraceDetailPage() {
         >
           Prompt Diff Viewer
         </button>
+        <button
+          className={`tab${activeTab === 'replay' ? ' tab-active' : ''}`}
+          onClick={() => setActiveTab('replay')}
+        >
+          Replay
+        </button>
       </div>
 
       {activeTab === 'graph' && (
@@ -170,6 +177,10 @@ export default function TraceDetailPage() {
 
       {activeTab === 'diff' && (
         <PromptDiffViewer steps={trace.steps} activeStep={activeStep} />
+      )}
+
+      {activeTab === 'replay' && (
+        <ReplayPanel trace={trace} activeStep={activeStep} />
       )}
     </div>
   );
