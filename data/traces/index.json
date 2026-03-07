@@ -6,5 +6,13 @@
     "totalLatency": 250,
     "totalTokens": 100,
     "hasError": false
+  },
+  {
+    "traceId": "trace-test-1",
+    "sessionId": "session-demo",
+    "createdAt": "2026-03-07T01:37:18.334Z",
+    "totalLatency": 120,
+    "totalTokens": 50,
+    "hasError": false
   }
 ]

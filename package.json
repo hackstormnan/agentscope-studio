@@ -7,6 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server/api/server.js",
     "dev": "ts-node src/server/api/server.ts",
+    "dev:server": "ts-node src/server/api/server.ts",
     "sanity:post": "ts-node scripts/post-trace.ts",
     "sanity:get": "ts-node scripts/get-traces.ts"
   },

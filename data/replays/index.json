@@ -1,0 +1,23 @@
+[
+  {
+    "replayId": "replay_381b2fb3-bbc0-4dbf-994d-9a0c14a425ac",
+    "sourceTraceId": "trace-test-1",
+    "targetStepId": "step-2",
+    "status": "success",
+    "startedAt": "2026-03-07T02:05:07.587Z"
+  },
+  {
+    "replayId": "replay_16ab104f-f17f-40ba-9529-6a353f13448e",
+    "sourceTraceId": "trace-test-1",
+    "targetStepId": "step-1",
+    "status": "success",
+    "startedAt": "2026-03-07T02:04:30.839Z"
+  },
+  {
+    "replayId": "replay_4030488b-06e6-4a66-bdd9-23a7ef88227c",
+    "sourceTraceId": "trace_test",
+    "targetStepId": "step_test",
+    "status": "error",
+    "startedAt": "2026-03-07T02:02:20.775Z"
+  }
+]

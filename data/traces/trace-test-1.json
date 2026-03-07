@@ -1,0 +1,47 @@
+{
+  "traceId": "trace-test-1",
+  "rootStepId": "step-1",
+  "metadata": {
+    "cost": 0.01,
+    "totalTokens": 50,
+    "totalLatency": 120,
+    "model": "gpt-test"
+  },
+  "steps": [
+    {
+      "output": {
+        "decision": "call llm"
+      },
+      "children": [
+        "step-2"
+      ],
+      "stepId": "step-1",
+      "latency": 30,
+      "type": "planner",
+      "input": {
+        "prompt": "Plan the task"
+      },
+      "status": "success"
+    },
+    {
+      "input": {
+        "prompt": "Write a short hello message"
+      },
+      "stepId": "step-2",
+      "type": "llm",
+      "output": {
+        "text": "Hello world!"
+      },
+      "children": [],
+      "latency": 90,
+      "status": "success",
+      "parentId": "step-1",
+      "tokens": {
+        "promptTokens": 10,
+        "totalTokens": 25,
+        "completionTokens": 15
+      }
+    }
+  ],
+  "sessionId": "session-demo"
+}

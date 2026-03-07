@@ -1,0 +1,22 @@
+{
+  "replayId": "replay_16ab104f-f17f-40ba-9529-6a353f13448e",
+  "sourceTraceId": "trace-test-1",
+  "targetStepId": "step-1",
+  "status": "success",
+  "startedAt": "2026-03-07T02:04:30.839Z",
+  "completedAt": "2026-03-07T02:04:30.840Z",
+  "producedStep": {
+    "originalStepId": "step-1",
+    "originalType": "planner",
+    "originalInput": {
+      "prompt": "Plan the task"
+    },
+    "originalOutput": {
+      "decision": "call llm"
+    },
+    "appliedOverrides": {},
+    "replayedInput": {
+      "prompt": "Plan the task"
+    }
+  }
+}

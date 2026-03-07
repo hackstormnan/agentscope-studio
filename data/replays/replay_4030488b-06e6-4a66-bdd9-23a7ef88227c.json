@@ -1,0 +1,9 @@
+{
+  "replayId": "replay_4030488b-06e6-4a66-bdd9-23a7ef88227c",
+  "sourceTraceId": "trace_test",
+  "targetStepId": "step_test",
+  "status": "error",
+  "startedAt": "2026-03-07T02:02:20.775Z",
+  "completedAt": "2026-03-07T02:02:20.775Z",
+  "errorMessage": "Trace not found: trace_test"
+}

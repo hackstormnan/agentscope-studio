@@ -1,0 +1,24 @@
+{
+  "replayId": "replay_381b2fb3-bbc0-4dbf-994d-9a0c14a425ac",
+  "sourceTraceId": "trace-test-1",
+  "targetStepId": "step-2",
+  "status": "success",
+  "startedAt": "2026-03-07T02:05:07.587Z",
+  "completedAt": "2026-03-07T02:05:07.587Z",
+  "producedStep": {
+    "originalStepId": "step-2",
+    "originalType": "llm",
+    "originalInput": {
+      "prompt": "Write a short hello message"
+    },
+    "originalOutput": {
+      "text": "Hello world!"
+    },
+    "appliedOverrides": {
+      "overridePrompt": "Write a friendly greeting message"
+    },
+    "replayedInput": {
+      "prompt": "Write a friendly greeting message"
+    }
+  }
+}
