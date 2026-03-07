@@ -1,0 +1,48 @@
+{
+  "traceId": "76222607-06df-4cfb-b504-7907a538c8d6",
+  "sessionId": "eval-demo-clean",
+  "rootStepId": "9d33e432-6ac3-435f-9beb-f46aae1e8bb6",
+  "steps": [
+    {
+      "stepId": "9d33e432-6ac3-435f-9beb-f46aae1e8bb6",
+      "type": "planner",
+      "status": "success",
+      "input": {
+        "goal": "Summarise a document"
+      },
+      "output": {
+        "plan": "Read → Summarise → Return"
+      },
+      "latency": 0,
+      "children": [
+        "ac4c45b1-e2cd-45a4-bd56-47251edd59b1"
+      ]
+    },
+    {
+      "stepId": "ac4c45b1-e2cd-45a4-bd56-47251edd59b1",
+      "parentId": "9d33e432-6ac3-435f-9beb-f46aae1e8bb6",
+      "type": "llm",
+      "status": "success",
+      "input": {
+        "prompt": "Summarise the following document…",
+        "model": "claude-sonnet-4-6"
+      },
+      "output": {
+        "text": "The document covers three main points…"
+      },
+      "latency": 0,
+      "tokens": {
+        "promptTokens": 200,
+        "completionTokens": 120,
+        "totalTokens": 320
+      },
+      "children": []
+    }
+  ],
+  "metadata": {
+    "model": "claude-sonnet-4-6",
+    "cost": 0.001,
+    "totalLatency": 0,
+    "totalTokens": 320
+  }
+}

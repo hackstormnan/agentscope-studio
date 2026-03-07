@@ -14,5 +14,21 @@
     "totalLatency": 120,
     "totalTokens": 50,
     "hasError": false
+  },
+  {
+    "traceId": "76222607-06df-4cfb-b504-7907a538c8d6",
+    "sessionId": "eval-demo-clean",
+    "createdAt": "2026-03-07T02:18:11.778Z",
+    "totalLatency": 0,
+    "totalTokens": 320,
+    "hasError": false
+  },
+  {
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "sessionId": "eval-demo-degraded",
+    "createdAt": "2026-03-07T02:18:11.785Z",
+    "totalLatency": 0,
+    "totalTokens": 0,
+    "hasError": true
   }
 ]

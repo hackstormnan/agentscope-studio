@@ -1,0 +1,73 @@
+{
+  "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+  "sessionId": "eval-demo-degraded",
+  "rootStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+  "steps": [
+    {
+      "stepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+      "type": "planner",
+      "status": "success",
+      "input": null,
+      "output": null,
+      "latency": 0,
+      "children": [
+        "5657327f-23d9-48bf-af6b-0027c10505e7",
+        "f14f1c6f-4662-452f-afd6-a660d364a1f5",
+        "dafc81ab-7cbe-48ce-a4e5-2f1adb3333aa",
+        "b37ddd44-678f-4f44-b003-ce3b5fcac483"
+      ]
+    },
+    {
+      "stepId": "5657327f-23d9-48bf-af6b-0027c10505e7",
+      "type": "tool",
+      "status": "error",
+      "input": {
+        "tool": "tool_0"
+      },
+      "output": null,
+      "latency": 0,
+      "children": []
+    },
+    {
+      "stepId": "f14f1c6f-4662-452f-afd6-a660d364a1f5",
+      "type": "tool",
+      "status": "error",
+      "input": {
+        "tool": "tool_1"
+      },
+      "output": null,
+      "latency": 0,
+      "children": []
+    },
+    {
+      "stepId": "dafc81ab-7cbe-48ce-a4e5-2f1adb3333aa",
+      "type": "tool",
+      "status": "error",
+      "input": {
+        "tool": "tool_2"
+      },
+      "output": null,
+      "latency": 0,
+      "children": []
+    },
+    {
+      "stepId": "b37ddd44-678f-4f44-b003-ce3b5fcac483",
+      "type": "llm",
+      "status": "success",
+      "input": {
+        "prompt": "Recover"
+      },
+      "output": {
+        "text": "Recovered."
+      },
+      "latency": 0,
+      "children": []
+    }
+  ],
+  "metadata": {
+    "model": "claude-sonnet-4-6",
+    "cost": 0.003,
+    "totalLatency": 0,
+    "totalTokens": 0
+  }
+}
