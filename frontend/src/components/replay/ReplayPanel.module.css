@@ -277,3 +277,174 @@
   color: var(--text-subtle);
   flex: 1;
 }
+
+/* ── JsonEditorBlock ────────────────────────────────────────────────────────── */
+.editorBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.editorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.editorLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dirtyDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.editorResetBtn {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-subtle);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: background 0.1s, color 0.1s;
+  font-family: var(--font);
+  flex-shrink: 0;
+}
+.editorResetBtn:hover:not(:disabled) { background: var(--surface-3); color: var(--text); }
+.editorResetBtn:disabled { opacity: 0.35; cursor: default; }
+
+.editorHint {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-subtle);
+}
+
+/* ── Two-column override grid ───────────────────────────────────────────────── */
+.overrideGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 800px) {
+  .overrideGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Override status summary ────────────────────────────────────────────────── */
+.overrideSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.overrideSummaryLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+}
+
+.overridePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+.overridePillNone {
+  background: var(--surface-3);
+  color: var(--text-subtle);
+  border-color: var(--border);
+}
+.overridePillActive {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-color: rgba(47, 129, 247, 0.3);
+}
+
+/* ── Payload preview ────────────────────────────────────────────────────────── */
+.payloadPreview {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.payloadPreviewHeader {
+  display: flex;
+  align-items: center;
+  padding: 7px 12px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-subtle);
+}
+
+.payloadRows {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.payloadRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.payloadKey {
+  font-family: var(--font-mono);
+  color: var(--text-subtle);
+  flex-shrink: 0;
+  min-width: 100px;
+}
+
+.payloadVal {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.payloadValOverride {
+  color: var(--accent);
+}
+
+.payloadValNone {
+  color: var(--text-subtle);
+  font-style: italic;
+}
+
+.payloadValEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
+  display: inline-block;
+  vertical-align: bottom;
+}
