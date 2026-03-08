@@ -11,7 +11,10 @@
       "Bash(powershell -Command \"Get-Process | Where-Object {$_Path -like ''*node*''} | Select-Object Id, ProcessName, Path\")",
       "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 4000 -ErrorAction SilentlyContinue | Select-Object OwningProcess\")",
       "Bash(npx tsc --noEmit)",
-      "Bash(npx tsc -p frontend/tsconfig.json --noEmit)"
+      "Bash(npx tsc -p frontend/tsconfig.json --noEmit)",
+      "Bash(curl -s http://localhost:4000/health)",
+      "Bash(curl -s -w \"\\\\nHTTP_STATUS:%{http_code}\" http://localhost:4000/api/experiments)",
+      "Bash(tasklist /FI \"PID eq 11368\" /FO LIST)"
     ]
   }
 }

@@ -27,6 +27,14 @@ export function Header() {
           >
             Traces
           </NavLink>
+          <NavLink
+            to="/experiments"
+            className={({ isActive }) =>
+              `${styles.link}${isActive ? ' ' + styles.active : ''}`
+            }
+          >
+            Experiments
+          </NavLink>
         </nav>
         <div className={styles.right}>
           <span className={styles.version}>v0.1.0</span>

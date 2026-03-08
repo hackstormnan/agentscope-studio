@@ -1,0 +1,271 @@
+/* ── Experiment list ─────────────────────────────────────────────────────── */
+.expList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.expCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.12s, background 0.12s;
+}
+.expCard:hover { background: var(--surface-2); border-color: var(--accent); }
+
+.expCardLeft { min-width: 0; flex: 1; }
+
+.expName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expDesc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.expMetaItem {
+  font-size: 12px;
+  color: var(--text-subtle);
+  white-space: nowrap;
+}
+
+.expRunCount {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Run table ────────────────────────────────────────────────────────────── */
+.runTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.runTable th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-subtle);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.runTable td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-muted);
+  color: var(--text-muted);
+  vertical-align: middle;
+}
+.runTable tr:last-child td { border-bottom: none; }
+
+.runTableRow {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.runTableRow:hover td { background: var(--surface-2); }
+.runTableRowSelected td { background: var(--accent-bg) !important; }
+
+.runIdCell {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-subtle);
+}
+
+.configCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ── Experiment detail header ─────────────────────────────────────────────── */
+.detailHeader {
+  margin-bottom: 24px;
+}
+
+.detailTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.detailMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.detailMetaItem {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.detailDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  max-width: 600px;
+}
+
+.sectionTitle {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  margin-bottom: 10px;
+}
+
+/* ── Comparison panel ─────────────────────────────────────────────────────── */
+.compPanel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: 24px;
+}
+
+.compHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.compTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.compRunHeaders {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 80px;
+  padding: 10px 18px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+}
+
+.compRunLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-subtle);
+}
+
+.compRunId {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compRunConfig {
+  font-size: 11px;
+  color: var(--text-subtle);
+  margin-top: 2px;
+}
+
+/* ── Metric comparison card ───────────────────────────────────────────────── */
+.metricRow {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 80px;
+  align-items: center;
+  padding: 10px 18px;
+  gap: 16px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.metricRow:last-child { border-bottom: none; }
+.metricRow:nth-child(even) { background: rgba(255,255,255,0.015); }
+
+.metricLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.metricValueEmpty {
+  font-size: 12px;
+  color: var(--text-subtle);
+}
+
+.metricDiff {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.diffImprove  { color: var(--success); }
+.diffRegress  { color: var(--error); }
+.diffNeutral  { color: var(--text-subtle); }
+
+/* ── Prompt to select 2 runs ─────────────────────────────────────────────── */
+.compPrompt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.compPromptIcon { font-size: 16px; }
