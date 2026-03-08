@@ -4,6 +4,7 @@ import type { NodeProps } from 'reactflow';
 import type { AgentStep } from '../../lib/api';
 import { StepTypeBadge } from './StepTypeBadge';
 import { StepStatusIndicator } from './StepStatusIndicator';
+import styles from './TraceDetail.module.css';
 
 export interface GraphNodeData {
   step: AgentStep;
@@ -95,6 +96,20 @@ export function GraphNode({ data }: NodeProps<GraphNodeData>) {
           {fmtMs(step.latency)}
         </span>
       </div>
+
+      {/* Agent label — only shown on multi-agent traces */}
+      {(step.agentName ?? step.agentRole) && (
+        <div
+          className={styles.graphNodeAgent}
+          style={{ marginTop: 5 }}
+          title={[step.agentName, step.agentRole].filter(Boolean).join(' · ')}
+        >
+          {step.agentName ?? step.agentRole}
+          {step.agentName && step.agentRole && (
+            <span style={{ opacity: 0.6 }}> · {step.agentRole}</span>
+          )}
+        </div>
+      )}
 
       <Handle
         type="source"

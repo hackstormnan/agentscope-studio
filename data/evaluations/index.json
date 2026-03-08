@@ -1,0 +1,47 @@
+[
+  {
+    "evaluationId": "eval_95d6db38-f7d7-4b22-ae98-db9d59eb87cb",
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "stepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+    "evaluatorName": "RuleBasedEvaluator",
+    "status": "success",
+    "startedAt": "2026-03-08T01:50:08.068Z"
+  },
+  {
+    "evaluationId": "eval_4be83503-7b81-4868-9106-a22adc11ab88",
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "evaluatorName": "RuleBasedEvaluator",
+    "status": "success",
+    "startedAt": "2026-03-08T01:50:07.576Z"
+  },
+  {
+    "evaluationId": "eval_a7ed94a7-d169-478e-bbe6-e2554b643111",
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "stepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+    "evaluatorName": "RuleBasedEvaluator",
+    "status": "success",
+    "startedAt": "2026-03-08T01:48:13.201Z"
+  },
+  {
+    "evaluationId": "eval_020a1429-6f7e-46af-b714-6a32f50ee8f9",
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "evaluatorName": "RuleBasedEvaluator",
+    "status": "success",
+    "startedAt": "2026-03-08T01:48:11.623Z"
+  },
+  {
+    "evaluationId": "eval_54332ff8-b4df-455e-a6cb-2fefb9ea8e4c",
+    "traceId": "demo-trace-1",
+    "stepId": "step-1",
+    "evaluatorName": "RuleBasedEvaluator",
+    "status": "success",
+    "startedAt": "2026-03-08T01:46:25.175Z"
+  },
+  {
+    "evaluationId": "eval_55e1a3f4-2cf6-4cb8-aaf7-7acca4916c02",
+    "traceId": "demo-trace-1",
+    "evaluatorName": "RuleBasedEvaluator",
+    "status": "success",
+    "startedAt": "2026-03-08T01:46:08.966Z"
+  }
+]

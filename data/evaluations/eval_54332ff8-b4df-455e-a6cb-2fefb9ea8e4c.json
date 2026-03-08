@@ -1,0 +1,15 @@
+{
+  "evaluationId": "eval_54332ff8-b4df-455e-a6cb-2fefb9ea8e4c",
+  "target": {
+    "traceId": "demo-trace-1",
+    "stepId": "step-1",
+    "targetType": "step"
+  },
+  "evaluatorName": "RuleBasedEvaluator",
+  "status": "success",
+  "score": 1,
+  "issues": [],
+  "summary": "Step \"step-1\" passed all checks. Score: 1.00.",
+  "startedAt": "2026-03-08T01:46:25.175Z",
+  "completedAt": "2026-03-08T01:46:25.175Z"
+}

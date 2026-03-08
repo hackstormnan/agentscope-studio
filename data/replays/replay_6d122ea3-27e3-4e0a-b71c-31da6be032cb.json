@@ -1,0 +1,18 @@
+{
+  "replayId": "replay_6d122ea3-27e3-4e0a-b71c-31da6be032cb",
+  "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+  "targetStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+  "status": "success",
+  "startedAt": "2026-03-08T01:48:36.132Z",
+  "completedAt": "2026-03-08T01:48:36.133Z",
+  "producedStep": {
+    "originalStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+    "originalType": "planner",
+    "originalInput": null,
+    "originalOutput": null,
+    "appliedOverrides": {},
+    "replayedInput": {
+      "value": null
+    }
+  }
+}

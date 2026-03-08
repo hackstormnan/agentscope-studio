@@ -8,11 +8,19 @@ export interface TokenUsage {
   totalTokens: number;
 }
 
+export interface AgentDescriptor {
+  agentId: string;
+  agentName?: string;
+  agentRole?: string;
+  metadata?: Record<string, unknown>;
+}
+
 export interface TraceMetadata {
   model: string;
   totalLatency: number;
   totalTokens: number;
   cost: number;
+  agents?: AgentDescriptor[];
 }
 
 export interface AgentStep {
@@ -25,6 +33,9 @@ export interface AgentStep {
   latency: number;
   tokens?: TokenUsage;
   children: string[];
+  agentId?: string;
+  agentName?: string;
+  agentRole?: string;
 }
 
 export interface AgentTrace {

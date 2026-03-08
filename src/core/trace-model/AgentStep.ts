@@ -13,4 +13,8 @@ export interface AgentStep {
   latency: number;
   tokens?: TokenUsage;
   children: string[];
+  // Multi-agent fields — all optional for backwards compatibility
+  agentId?: string;
+  agentName?: string;
+  agentRole?: string;
 }

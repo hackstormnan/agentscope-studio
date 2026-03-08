@@ -34,6 +34,9 @@ export function TimelineItem({ step, active, isRoot, onClick }: TimelineItemProp
         <div className={styles.etCardTop}>
           <div className={styles.etCardLeft}>
             <StepTypeBadge type={step.type} isRoot={isRoot} />
+            {step.agentRole && (
+              <span className={styles.agentRoleBadge}>{step.agentRole}</span>
+            )}
           </div>
           <div className={styles.etCardRight}>
             <StepStatusIndicator status={step.status} />

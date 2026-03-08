@@ -11,6 +11,7 @@ interface TraceHeaderProps {
 
 export function TraceHeader({ trace }: TraceHeaderProps) {
   const { metadata, steps, sessionId, traceId } = trace;
+  const agents = metadata.agents;
 
   return (
     <div className={styles.traceHeader}>
@@ -30,6 +31,20 @@ export function TraceHeader({ trace }: TraceHeaderProps) {
         <Sep />
         <MetaItem label="Steps" value={String(steps.length)} />
       </div>
+
+      {agents && agents.length > 0 && (
+        <div className={styles.agentStrip}>
+          <span className={styles.agentStripLabel}>Agents</span>
+          {agents.map((a) => (
+            <span key={a.agentId} className={styles.agentPill}>
+              {a.agentName ?? a.agentId}
+              {a.agentRole && (
+                <span className={styles.agentPillRole}>{a.agentRole}</span>
+              )}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

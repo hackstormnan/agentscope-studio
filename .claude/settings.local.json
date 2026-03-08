@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(curl -s http://localhost:4000/api/evaluations/ping)",
+      "Bash(curl -s http://localhost:4000/api/evaluations)",
+      "Bash(curl -s http://localhost:4000/api/traces)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :4000)",
+      "Bash(curl -sv http://localhost:4000/api/traces)",
+      "Bash(powershell -Command \"Get-Process | Where-Object {$_Path -like ''*node*''} | Select-Object Id, ProcessName, Path\")",
+      "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 4000 -ErrorAction SilentlyContinue | Select-Object OwningProcess\")"
     ]
   }
 }

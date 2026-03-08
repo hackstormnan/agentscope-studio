@@ -1,5 +1,12 @@
 [
   {
+    "replayId": "replay_6d122ea3-27e3-4e0a-b71c-31da6be032cb",
+    "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "targetStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+    "status": "success",
+    "startedAt": "2026-03-08T01:48:36.132Z"
+  },
+  {
     "replayId": "replay_9c8511b6-75c4-4011-be8a-ab5f526ec7cc",
     "sourceTraceId": "trace-test-1",
     "targetStepId": "step-2",
