@@ -1,5 +1,12 @@
 [
   {
+    "evaluationId": "eval_478ea082-ef69-4e31-857a-1a70795085e2",
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "evaluatorName": "RuleBasedEvaluator",
+    "status": "success",
+    "startedAt": "2026-03-08T02:09:13.750Z"
+  },
+  {
     "evaluationId": "eval_01a34a2d-b46a-4f32-b2bc-5cc4a6ca1fc2",
     "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
     "stepId": "5657327f-23d9-48bf-af6b-0027c10505e7",

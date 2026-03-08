@@ -1,0 +1,31 @@
+{
+  "evaluationId": "eval_478ea082-ef69-4e31-857a-1a70795085e2",
+  "target": {
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "targetType": "trace"
+  },
+  "evaluatorName": "RuleBasedEvaluator",
+  "status": "success",
+  "score": 0.9,
+  "issues": [
+    {
+      "code": "TRACE_ERROR_RATE_HIGH",
+      "title": "High step error rate",
+      "description": "60% of steps finished with status \"error\" (3 of 5). Threshold is 30%.",
+      "severity": "warning",
+      "metadata": {
+        "errorStepCount": 3,
+        "totalStepCount": 5,
+        "errorRate": 0.6,
+        "errorStepIds": [
+          "5657327f-23d9-48bf-af6b-0027c10505e7",
+          "f14f1c6f-4662-452f-afd6-a660d364a1f5",
+          "dafc81ab-7cbe-48ce-a4e5-2f1adb3333aa"
+        ]
+      }
+    }
+  ],
+  "summary": "Trace \"c99801ec-5557-4561-81f5-eb759b25cd9a\" completed with 1 warning(s). Score: 0.90.",
+  "startedAt": "2026-03-08T02:09:13.750Z",
+  "completedAt": "2026-03-08T02:09:13.751Z"
+}

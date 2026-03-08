@@ -1,0 +1,259 @@
+/* ── Query Builder Panel ──────────────────────────────────────────────────── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+/* Header row */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.panelTitle {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.panelActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Body */
+.panelBody {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Filter rows ──────────────────────────────────────────────────────────── */
+.filterList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Inputs inside the query builder are smaller than the global .input */
+.filterSelect {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 12px;
+  font-family: var(--font);
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: border-color 0.12s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b949e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  padding-right: 24px;
+}
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.fieldSelect  { width: 140px; flex-shrink: 0; }
+.opSelect     { width: 100px; flex-shrink: 0; }
+
+.filterInput {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 12px;
+  font-family: var(--font);
+  padding: 5px 8px;
+  transition: border-color 0.12s;
+}
+.filterInput::placeholder { color: var(--text-subtle); }
+.filterInput:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.filterInput[type='number'] { font-family: var(--font-mono); }
+
+/* Boolean value select matches filterSelect width of input */
+.boolSelect {
+  flex: 1;
+}
+
+.removeBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-subtle);
+  font-size: 16px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+  padding: 0;
+  transition: color 0.12s, background 0.12s;
+  line-height: 1;
+}
+.removeBtn:hover {
+  color: var(--error);
+  background: rgba(248, 81, 73, 0.1);
+}
+
+.emptyFilters {
+  font-size: 12px;
+  color: var(--text-subtle);
+  padding: 4px 0;
+}
+
+/* ── Sort row ─────────────────────────────────────────────────────────────── */
+.sortRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-muted);
+  margin-top: 2px;
+}
+
+.sortLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+  width: 32px;
+}
+
+/* ── Footer (Add filter + Run) ────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  gap: 8px;
+}
+
+/* ── Mode tabs ────────────────────────────────────────────────────────────── */
+.modeTabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.modeTab {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: background 0.12s, color 0.12s;
+  font-family: var(--font);
+}
+.modeTab:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+.modeTab:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.modeTabActive {
+  background: var(--accent-bg) !important;
+  color: var(--accent) !important;
+}
+
+/* ── Query Summary strip ──────────────────────────────────────────────────── */
+.summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.summaryLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+}
+
+.summaryChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.summarySort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--accent-bg);
+  border: 1px solid rgba(47, 129, 247, 0.2);
+  border-radius: 10px;
+  font-size: 11px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.summarySep {
+  width: 1px;
+  height: 12px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.summaryCount {
+  font-size: 11px;
+  color: var(--text-subtle);
+  margin-left: auto;
+  flex-shrink: 0;
+}
