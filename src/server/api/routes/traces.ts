@@ -2,9 +2,11 @@ import { Router, Request, Response } from 'express';
 import type { TraceStore } from '../../storage';
 import type { ReplayStore } from '../../replay-store';
 import type { AgentTrace } from '../../../core/trace-model';
+import type { TraceQuery } from '../../../core/query-model';
 import { createTraceReplaysHandler } from './replays';
 import { traceEvaluationsHandler, stepEvaluationsHandler } from './evaluations';
 import { CostLatencyAnalyzer } from '../../analysis';
+import { TraceQueryService } from '../../query';
 
 /**
  * Registers all /api/traces routes.
@@ -32,6 +34,34 @@ export function createTracesRouter(
   replayStore?: ReplayStore,
 ): Router {
   const router = Router();
+  const queryService = new TraceQueryService(store);
+
+  // ---------------------------------------------------------------------------
+  // POST /api/traces/query — structured query with filtering, sorting, pagination
+  // Mounted before /:traceId/* routes so Express does not treat "query" as a
+  // traceId parameter.
+  //
+  // curl example:
+  //   curl -X POST http://localhost:4000/api/traces/query \
+  //     -H "Content-Type: application/json" \
+  //     -d '{"filters":[{"field":"hasError","operator":"eq","value":true}],"limit":10}'
+  // ---------------------------------------------------------------------------
+  router.post('/query', async (req: Request, res: Response): Promise<void> => {
+    const body: unknown = req.body;
+
+    if (!isTraceQuery(body)) {
+      res.status(400).json({ error: 'Invalid query: body must be an object with a "filters" array.' });
+      return;
+    }
+
+    try {
+      const result = await queryService.execute(body);
+      res.json(result);
+    } catch (err) {
+      console.error('[POST /api/traces/query]', err);
+      res.status(500).json({ error: 'Query execution failed.' });
+    }
+  });
 
   // ---------------------------------------------------------------------------
   // POST /api/traces — ingest a trace
@@ -136,6 +166,14 @@ export function createTracesRouter(
 // ---------------------------------------------------------------------------
 // Validation helpers
 // ---------------------------------------------------------------------------
+
+function isTraceQuery(value: unknown): value is TraceQuery {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    Array.isArray((value as Record<string, unknown>)['filters'])
+  );
+}
 
 function isAgentTrace(value: unknown): value is AgentTrace {
   return (
