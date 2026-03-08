@@ -4,6 +4,7 @@ import { FileReplayStore } from '../replay-store';
 import { createTracesRouter } from './routes/traces';
 import { replaysRouter } from './routes/replays';
 import { evaluationsRouter } from './routes/evaluations';
+import { datasetsRouter } from './routes/datasets';
 import { computeStats } from './services/stats';
 
 const PORT = 4000;
@@ -22,6 +23,7 @@ const replayStore = new FileReplayStore();  // data/replays/ — shared with tra
 app.use('/api/traces',      createTracesRouter(store, replayStore));
 app.use('/api/replays',     replaysRouter);
 app.use('/api/evaluations', evaluationsRouter);
+app.use('/api/datasets',    datasetsRouter);
 
 // ---------------------------------------------------------------------------
 // GET /api/stats — dashboard-level aggregate metrics
