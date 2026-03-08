@@ -1,5 +1,26 @@
 [
   {
+    "replayId": "replay_1d2efafd-6093-46bb-bffb-28df325898e2",
+    "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "targetStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+    "status": "success",
+    "startedAt": "2026-03-08T01:59:14.428Z"
+  },
+  {
+    "replayId": "replay_3158d38d-e483-4184-a9c3-7054e1c308bf",
+    "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "targetStepId": "bad-step-id",
+    "status": "error",
+    "startedAt": "2026-03-08T01:57:12.106Z"
+  },
+  {
+    "replayId": "replay_d3d30528-b8be-4f2d-844c-38e9919d4eb6",
+    "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "targetStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+    "status": "success",
+    "startedAt": "2026-03-08T01:56:48.158Z"
+  },
+  {
     "replayId": "replay_6d122ea3-27e3-4e0a-b71c-31da6be032cb",
     "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
     "targetStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",

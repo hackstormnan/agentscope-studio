@@ -1,0 +1,37 @@
+{
+  "evaluationId": "eval_01a34a2d-b46a-4f32-b2bc-5cc4a6ca1fc2",
+  "target": {
+    "traceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+    "stepId": "5657327f-23d9-48bf-af6b-0027c10505e7",
+    "targetType": "step"
+  },
+  "evaluatorName": "RuleBasedEvaluator",
+  "status": "success",
+  "score": 0.65,
+  "issues": [
+    {
+      "code": "STEP_ERROR_STATUS",
+      "title": "Step finished with error status",
+      "description": "Step \"5657327f-23d9-48bf-af6b-0027c10505e7\" (type: tool) completed with status \"error\".",
+      "severity": "error",
+      "metadata": {
+        "stepId": "5657327f-23d9-48bf-af6b-0027c10505e7",
+        "stepType": "tool"
+      }
+    },
+    {
+      "code": "STEP_MISSING_OUTPUT",
+      "title": "Step output is missing or empty",
+      "description": "Step \"5657327f-23d9-48bf-af6b-0027c10505e7\" (type: tool) produced no output. This may indicate a silent failure or incomplete execution.",
+      "severity": "warning",
+      "metadata": {
+        "stepId": "5657327f-23d9-48bf-af6b-0027c10505e7",
+        "stepType": "tool",
+        "output": null
+      }
+    }
+  ],
+  "summary": "Step \"5657327f-23d9-48bf-af6b-0027c10505e7\" completed with 1 error(s), 1 warning(s). Score: 0.65.",
+  "startedAt": "2026-03-08T01:57:02.626Z",
+  "completedAt": "2026-03-08T01:57:02.626Z"
+}

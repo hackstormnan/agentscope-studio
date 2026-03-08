@@ -1,0 +1,21 @@
+{
+  "replayId": "replay_1d2efafd-6093-46bb-bffb-28df325898e2",
+  "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+  "targetStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+  "status": "success",
+  "startedAt": "2026-03-08T01:59:14.428Z",
+  "completedAt": "2026-03-08T01:59:14.429Z",
+  "producedStep": {
+    "originalStepId": "4646a288-2b79-4a89-ab70-d90d5876dc33",
+    "originalType": "planner",
+    "originalInput": null,
+    "originalOutput": null,
+    "appliedOverrides": {
+      "overridePrompt": "PowerShell replay test prompt"
+    },
+    "replayedInput": {
+      "value": null,
+      "prompt": "PowerShell replay test prompt"
+    }
+  }
+}

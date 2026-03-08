@@ -1,0 +1,9 @@
+{
+  "replayId": "replay_3158d38d-e483-4184-a9c3-7054e1c308bf",
+  "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+  "targetStepId": "bad-step-id",
+  "status": "error",
+  "startedAt": "2026-03-08T01:57:12.106Z",
+  "completedAt": "2026-03-08T01:57:12.107Z",
+  "errorMessage": "Step not found in trace c99801ec-5557-4561-81f5-eb759b25cd9a: bad-step-id"
+}
