@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ErrorState }            from '../components/ui/ErrorState';
 import { LoadingState }          from '../components/ui/LoadingState';
-import { ExperimentRunTable }    from '../components/experiments/ExperimentRunTable';
-import { RunComparisonPanel }    from '../components/experiments/RunComparisonPanel';
-import { RunEvaluationSummary }  from '../components/experiments/RunEvaluationSummary';
+import { ExperimentRunTable }      from '../components/experiments/ExperimentRunTable';
+import { RunComparisonPanel }      from '../components/experiments/RunComparisonPanel';
+import { RunEvaluationSummary }    from '../components/experiments/RunEvaluationSummary';
+import { RegressionReportPanel }   from '../components/experiments/RegressionReportPanel';
 import { getExperimentDetail }   from '../features/experiments/api';
 import { fetchStoredEvaluation } from '../features/experiments/evaluationApi';
 import type { ExperimentDetail, ExperimentRunWithSummary } from '../features/experiments/types';
@@ -173,6 +174,16 @@ export default function ExperimentDetailPage() {
             Select exactly two runs using the checkboxes above to compare their metrics side-by-side.
           </span>
         </div>
+      )}
+
+      {/* Regression report — visible whenever two runs are compared */}
+      {runA && runB && (
+        <RegressionReportPanel
+          runA={runA}
+          runB={runB}
+          evalA={evalMap[runA.run.datasetRunId] ?? null}
+          evalB={evalMap[runB.run.datasetRunId] ?? null}
+        />
       )}
 
       {/* Batch evaluation panel */}

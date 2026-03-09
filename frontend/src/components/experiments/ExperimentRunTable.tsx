@@ -1,3 +1,4 @@
+import { StatusBadge } from '../ui/StatusBadge';
 import type { ExperimentRunWithSummary } from '../../features/experiments/types';
 import styles from './Experiments.module.css';
 
@@ -103,11 +104,3 @@ export function ExperimentRunTable({
   );
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const cls =
-    status === 'success' ? 'badge badge-success'
-    : status === 'error'   ? 'badge badge-error'
-    : status === 'running' ? 'badge badge-accent'
-    : 'badge badge-default';
-  return <span className={cls}>{status}</span>;
-}

@@ -6,6 +6,7 @@ import { replaysRouter } from './routes/replays';
 import { evaluationsRouter } from './routes/evaluations';
 import { datasetsRouter } from './routes/datasets';
 import { experimentsRouter } from './routes/experiments';
+import { reportsRouter }     from './routes/reports';
 import { computeStats } from './services/stats';
 
 const PORT = 4000;
@@ -26,6 +27,7 @@ app.use('/api/replays',     replaysRouter);
 app.use('/api/evaluations', evaluationsRouter);
 app.use('/api/datasets',    datasetsRouter);
 app.use('/api/experiments', experimentsRouter);
+app.use('/api/reports',     reportsRouter);
 
 // ---------------------------------------------------------------------------
 // GET /api/stats — dashboard-level aggregate metrics
