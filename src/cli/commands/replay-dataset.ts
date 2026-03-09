@@ -1,4 +1,5 @@
-import fs from 'fs/promises';
+import fs   from 'fs/promises';
+import path from 'path';
 import type { Dataset }           from '../../core/dataset-model';
 import type { ReplayOverrides }   from '../../core/replay-model';
 import { BatchReplayService }     from '../../server/dataset-replay/BatchReplayService';
@@ -37,13 +38,21 @@ export async function replayDatasetCommand(flags: Record<string, string>): Promi
   }
 
   // ── Load config ────────────────────────────────────────────────────────────
+  //
+  // Resolve relative paths from process.cwd() so the error message always
+  // shows the absolute path that Node actually tried to open — critical for
+  // debugging CI failures where the working directory is not obvious.
+
+  const resolvedConfig = path.resolve(process.cwd(), configPath);
 
   let config: ReplayConfig;
   try {
-    const raw = await fs.readFile(configPath, 'utf-8');
+    const raw = await fs.readFile(resolvedConfig, 'utf-8');
     config = JSON.parse(raw) as ReplayConfig;
-  } catch {
+  } catch (err) {
     printError(`Cannot read config file: ${configPath}`);
+    printError(`Resolved path: ${resolvedConfig}`);
+    if (err instanceof Error) printError(`Reason: ${err.message}`);
     process.exit(1);
   }
 

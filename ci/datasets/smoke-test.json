@@ -1,0 +1,22 @@
+{
+  "datasetId": "ds-ci-smoke",
+  "name": "CI Smoke Test",
+  "description": "Minimal dataset used by the GitHub Actions evaluation workflow. Add or replace items to match your agent's expected inputs.",
+  "items": [
+    {
+      "itemId": "smoke-001",
+      "input": { "prompt": "What is 2 + 2?" },
+      "expectedOutput": "4"
+    },
+    {
+      "itemId": "smoke-002",
+      "input": { "prompt": "What is the capital of France?" },
+      "expectedOutput": "Paris"
+    },
+    {
+      "itemId": "smoke-003",
+      "input": { "prompt": "Summarise in one sentence: The sky is blue because of Rayleigh scattering of sunlight." },
+      "expectedOutput": "The sky appears blue due to Rayleigh scattering of sunlight."
+    }
+  ]
+}
