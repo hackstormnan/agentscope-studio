@@ -1,53 +1,126 @@
-import { LinkButton } from '../components/ui/Button';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { MetricCard }    from '../components/ui/MetricCard';
+import { getTraceStats } from '../lib/api';
+import type { DashboardStats } from '../lib/api';
 import styles from './HomePage.module.css';
 
-const FEATURES = [
+// ── Platform nav sections ─────────────────────────────────────────────────────
+
+const NAV_SECTIONS = [
   {
-    icon: '⬡',
-    title: 'Trace Execution',
-    desc: 'Capture every step — LLM calls, tool uses, memory reads, and planner decisions — with full input/output payloads and latency breakdowns.',
+    icon:  '◈',
+    title: 'Trace Explorer',
+    desc:  'Browse every recorded agent session. Filter, query, and drill into individual steps with full I/O payloads.',
+    to:    '/traces',
   },
   {
-    icon: '◈',
-    title: 'Aggregate Stats',
-    desc: 'Token usage, latency distributions, error rates, and cost breakdowns across all sessions and configurable time windows.',
+    icon:  '⬡',
+    title: 'Experiments',
+    desc:  'Compare prompt versions and model configs across dataset runs. Surface regressions with side-by-side metrics.',
+    to:    '/experiments',
   },
   {
-    icon: '◎',
-    title: 'Deep Inspection',
-    desc: 'Dive into individual traces with a visual execution timeline, reasoning graph, and side-by-side prompt diff viewer.',
+    icon:  '≡',
+    title: 'Datasets',
+    desc:  'Review batch replay runs — success rates, error counts, and per-item outcomes across evaluation datasets.',
+    to:    '/datasets',
   },
-];
+  {
+    icon:  '◎',
+    title: 'Evaluation',
+    desc:  'Rule-based evaluation results, quality scores, and issue trends. Detect anomalies before production.',
+    to:    '/evaluation',
+  },
+  {
+    icon:  '⊛',
+    title: 'System Insights',
+    desc:  'Latency percentiles, token budgets, and error rates across all traces. Identify slow and error-prone flows.',
+    to:    '/insights',
+  },
+] as const;
+
+function fmtMs(ms: number): string {
+  if (ms >= 1_000) return `${(ms / 1_000).toFixed(2)}s`;
+  return `${Math.round(ms)}ms`;
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
-  return (
-    <div className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.heroLabel}>Observability Platform</div>
-        <h1 className={styles.heroTitle}>AgentScope Studio</h1>
-        <p className={styles.heroSub}>
-          Track every LLM call, tool invocation, and decision your AI agents make.
-          Debug failure modes faster and ship with confidence.
-        </p>
-        <div className={styles.heroActions}>
-          <LinkButton to="/traces" variant="primary" size="lg">
-            Enter Studio →
-          </LinkButton>
-          <LinkButton to="/traces" variant="ghost" size="lg">
-            View Traces
-          </LinkButton>
-        </div>
-      </section>
+  const [stats,   setStats]   = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
 
-      <section className={styles.features}>
-        {FEATURES.map((f) => (
-          <div key={f.title} className={styles.featureCard}>
-            <div className={styles.featureIcon}>{f.icon}</div>
-            <div className={styles.featureTitle}>{f.title}</div>
-            <div className={styles.featureDesc}>{f.desc}</div>
-          </div>
+  useEffect(() => {
+    getTraceStats()
+      .then(setStats)
+      .catch(() => setStats(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const isHealthy = stats ? stats.errorRate <= 0.1 : true;
+
+  return (
+    <div className="page">
+      {/* Dashboard header */}
+      <div className={styles.dashHeader}>
+        <div className={styles.dashTitle}>AgentScope Studio</div>
+        <div className={styles.dashSub}>Observability platform for AI agents</div>
+      </div>
+
+      {/* Health banner */}
+      {!loading && stats && (
+        <div className={`${styles.healthRow}${!isHealthy ? ' ' + styles.healthRowBad : ''}`}>
+          <span>{isHealthy ? '✓' : '⚠'}</span>
+          <span>
+            {isHealthy
+              ? `System healthy · ${stats.errorRate === 0 ? 'No errors' : `${(stats.errorRate * 100).toFixed(1)}% error rate`}`
+              : `Elevated error rate: ${(stats.errorRate * 100).toFixed(1)}% · ${stats.errorTraces} error traces`}
+          </span>
+        </div>
+      )}
+
+      {/* Live KPI strip */}
+      <div className={styles.metricStrip}>
+        <MetricCard
+          label="Total Traces"
+          value={stats ? stats.totalTraces.toLocaleString() : '—'}
+          sub={stats ? `${stats.last24hTraces ?? 0} in last 24 h` : undefined}
+          loading={loading}
+        />
+        <MetricCard
+          label="Error Rate"
+          value={stats ? `${(stats.errorRate * 100).toFixed(1)}%` : '—'}
+          sub={stats ? `${stats.errorTraces} error traces` : undefined}
+          variant={stats && stats.errorRate > 0.1 ? 'error' : 'default'}
+          loading={loading}
+        />
+        <MetricCard
+          label="Avg Latency"
+          value={stats ? fmtMs(stats.avgLatency) : '—'}
+          sub="per trace"
+          variant="accent"
+          loading={loading}
+        />
+        <MetricCard
+          label="Avg Tokens"
+          value={stats ? Math.round(stats.avgTokens).toLocaleString() : '—'}
+          sub="per trace"
+          loading={loading}
+        />
+      </div>
+
+      {/* Platform navigation grid */}
+      <div className="section-label" style={{ marginBottom: 12 }}>Platform</div>
+      <div className={styles.navGrid}>
+        {NAV_SECTIONS.map((s) => (
+          <Link key={s.to} to={s.to} className={styles.navCard}>
+            <div className={styles.navCardIcon}>{s.icon}</div>
+            <div className={styles.navCardTitle}>{s.title}</div>
+            <div className={styles.navCardDesc}>{s.desc}</div>
+          </Link>
         ))}
-      </section>
+      </div>
     </div>
   );
 }

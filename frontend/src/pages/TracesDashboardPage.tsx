@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { StatCard } from '../components/ui/StatCard';
-import { EmptyState } from '../components/ui/EmptyState';
-import { ErrorState } from '../components/ui/ErrorState';
-import { Button } from '../components/ui/Button';
-import { TraceTable } from '../features/traces/TraceTable';
+import { MetricCard }  from '../components/ui/MetricCard';
+import { EmptyState }  from '../components/ui/EmptyState';
+import { ErrorState }  from '../components/ui/ErrorState';
+import { Button }      from '../components/ui/Button';
+import { TraceTable }  from '../features/traces/TraceTable';
 import { TraceFilters } from '../features/traces/TraceFilters';
-import { useTraces } from '../features/traces/useTraces';
+import { useTraces }   from '../features/traces/useTraces';
 import { QueryBuilderPanel } from '../components/query/QueryBuilderPanel';
-import { QuerySummary } from '../components/query/QuerySummary';
-import { useQueryBuilder } from '../features/query/useQueryBuilder';
-import { listEvaluations } from '../features/evaluation/api';
+import { QuerySummary }      from '../components/query/QuerySummary';
+import { useQueryBuilder }   from '../features/query/useQueryBuilder';
+import { listEvaluations }   from '../features/evaluation/api';
 import type { EvaluationResult } from '../features/evaluation/types';
 import styles from './TracesDashboardPage.module.css';
 import qStyles from '../components/query/QueryBuilderPanel.module.css';
@@ -75,26 +75,27 @@ export default function TracesDashboardPage() {
         </div>
       ) : (
         <div className="grid-4 mb-8">
-          <StatCard
+          <MetricCard
             label="Total Traces"
             loading={browse.statsLoading}
             value={browse.stats ? browse.stats.totalTraces.toLocaleString() : '—'}
             sub={browse.stats ? `${browse.stats.last24hTraces ?? 0} in last 24h` : undefined}
           />
-          <StatCard
+          <MetricCard
             label="Error Rate"
             loading={browse.statsLoading}
             value={browse.stats ? fmtRate(browse.stats.errorRate) : '—'}
             sub={browse.stats ? `${browse.stats.errorTraces} traces with errors` : undefined}
-            alert={!!browse.stats && browse.stats.errorRate > 0.1}
+            variant={!!browse.stats && browse.stats.errorRate > 0.1 ? 'error' : 'default'}
           />
-          <StatCard
+          <MetricCard
             label="Avg Latency"
             loading={browse.statsLoading}
             value={browse.stats ? fmtMs(browse.stats.avgLatency) : '—'}
             sub="Per trace"
+            variant="accent"
           />
-          <StatCard
+          <MetricCard
             label="Avg Tokens"
             loading={browse.statsLoading}
             value={browse.stats ? fmtNum(browse.stats.avgTokens) : '—'}

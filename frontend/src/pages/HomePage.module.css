@@ -1,93 +1,101 @@
-.page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 80px 32px 60px;
-}
-
-/* ── Hero ──────────────────────────────────────────────────────────────────── */
-.hero {
-  text-align: center;
-  margin-bottom: 72px;
-}
-
-.heroLabel {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 1px solid rgba(47, 129, 247, 0.25);
-  border-radius: 20px;
-  padding: 4px 14px;
-  margin-bottom: 24px;
-}
-
-.heroTitle {
-  font-size: clamp(36px, 6vw, 52px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  line-height: 1.1;
-  margin-bottom: 20px;
-}
-
-.heroSub {
-  font-size: 17px;
-  color: var(--text-muted);
-  line-height: 1.75;
-  max-width: 520px;
-  margin: 0 auto 36px;
-}
-
-.heroActions {
-  display: flex;
+/* ── Metric strip ──────────────────────────────────────────────────────────── */
+.metricStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
+  margin-bottom: 32px;
 }
 
-/* ── Features ──────────────────────────────────────────────────────────────── */
-.features {
+@media (max-width: 900px) {
+  .metricStrip { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Nav grid ──────────────────────────────────────────────────────────────── */
+.navGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 14px;
+  margin-bottom: 32px;
 }
 
-@media (max-width: 700px) {
-  .features { grid-template-columns: 1fr; }
-  .page { padding: 48px 20px 40px; }
+@media (max-width: 800px) {
+  .navGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
-.featureCard {
+@media (max-width: 500px) {
+  .navGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Nav card ──────────────────────────────────────────────────────────────── */
+.navCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 24px;
-  transition: border-color 0.15s, transform 0.15s;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.1s;
 }
-.featureCard:hover {
+.navCard:hover {
   border-color: rgba(47, 129, 247, 0.4);
-  transform: translateY(-1px);
+  background: var(--surface-2);
 }
 
-.featureIcon {
-  font-size: 22px;
+.navCardIcon {
+  font-size: 18px;
   color: var(--accent);
-  margin-bottom: 14px;
   line-height: 1;
 }
 
-.featureTitle {
-  font-size: 15px;
+.navCardTitle {
+  font-size: 14px;
   font-weight: 600;
   color: var(--text);
-  margin-bottom: 8px;
 }
 
-.featureDesc {
+.navCardDesc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* ── Section header ────────────────────────────────────────────────────────── */
+.dashHeader {
+  margin-bottom: 28px;
+}
+
+.dashTitle {
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.dashSub {
   font-size: 13px;
   color: var(--text-muted);
-  line-height: 1.65;
+}
+
+/* ── Health row ────────────────────────────────────────────────────────────── */
+.healthRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--success-bg);
+  border: 1px solid rgba(63, 185, 80, 0.25);
+  border-radius: var(--radius-md);
+  color: var(--success);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 28px;
+}
+
+.healthRowBad {
+  background: var(--error-bg);
+  border-color: rgba(248, 81, 73, 0.25);
+  color: var(--error);
 }
