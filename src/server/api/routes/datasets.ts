@@ -1,11 +1,15 @@
 import { Router, Request, Response } from 'express';
 import type { Dataset, DatasetRun } from '../../../core/dataset-model';
-import { BatchReplayService } from '../../dataset-replay/BatchReplayService';
-import { DatasetReplayStore } from '../../dataset-replay/DatasetReplayStore';
-import { createDatasetRunId } from '../../dataset-replay/DatasetReplayUtils';
+import { BatchReplayService }     from '../../dataset-replay/BatchReplayService';
+import { DatasetReplayStore }     from '../../dataset-replay/DatasetReplayStore';
+import { createDatasetRunId }     from '../../dataset-replay/DatasetReplayUtils';
+import { BatchEvaluationService } from '../../batch-evaluation/BatchEvaluationService';
+import { BatchEvaluationStore }   from '../../batch-evaluation/BatchEvaluationStore';
 
-const service = new BatchReplayService();
-const store   = new DatasetReplayStore();
+const replayService = new BatchReplayService();
+const replayStore   = new DatasetReplayStore();
+const evalService   = new BatchEvaluationService();
+const evalStore     = new BatchEvaluationStore();
 
 export const datasetsRouter = Router();
 
@@ -49,8 +53,8 @@ datasetsRouter.post('/runs', async (req: Request, res: Response): Promise<void> 
   };
 
   try {
-    const response = await service.runDatasetReplay({ dataset: body.dataset, run });
-    await store.saveRun(response).catch((err) =>
+    const response = await replayService.runDatasetReplay({ dataset: body.dataset, run });
+    await replayStore.saveRun(response).catch((err) =>
       console.error('[POST /api/datasets/runs] persist failed:', err),
     );
     res.status(201).json(response);
@@ -61,13 +65,67 @@ datasetsRouter.post('/runs', async (req: Request, res: Response): Promise<void> 
 });
 
 // ---------------------------------------------------------------------------
+// POST /api/datasets/runs/:runId/evaluate
+//
+// Loads the stored dataset run, runs BatchEvaluationService over its results,
+// persists the evaluation report, and returns it.
+// ---------------------------------------------------------------------------
+datasetsRouter.post('/runs/:runId/evaluate', async (req: Request, res: Response): Promise<void> => {
+  const { runId } = req.params;
+
+  try {
+    const batchRun = await replayStore.getRun(runId);
+    if (!batchRun) {
+      res.status(404).json({ error: `Dataset run not found: ${runId}` });
+      return;
+    }
+
+    const evalResponse = await evalService.evaluateDatasetRun({
+      runId,
+      results: batchRun.results,
+    });
+
+    await evalStore.save(evalResponse).catch((err) =>
+      console.error(`[POST /api/datasets/runs/${runId}/evaluate] persist failed:`, err),
+    );
+
+    res.json(evalResponse);
+  } catch (err) {
+    console.error(`[POST /api/datasets/runs/${runId}/evaluate]`, err);
+    res.status(500).json({ error: 'Batch evaluation failed.' });
+  }
+});
+
+// ---------------------------------------------------------------------------
+// GET /api/datasets/runs/:runId/evaluations
+//
+// Returns the stored BatchEvaluationResponse for a run, or 404 if it has
+// not been evaluated yet.
+// ---------------------------------------------------------------------------
+datasetsRouter.get('/runs/:runId/evaluations', async (req: Request, res: Response): Promise<void> => {
+  const { runId } = req.params;
+
+  try {
+    const stored = await evalStore.get(runId);
+    if (!stored) {
+      res.status(404).json({ error: `No evaluations found for run: ${runId}` });
+      return;
+    }
+    res.json(stored);
+  } catch (err) {
+    console.error(`[GET /api/datasets/runs/${runId}/evaluations]`, err);
+    res.status(500).json({ error: 'Failed to retrieve evaluations.' });
+  }
+});
+
+// ---------------------------------------------------------------------------
 // GET /api/datasets/runs/:runId
 // ---------------------------------------------------------------------------
 datasetsRouter.get('/runs/:runId', async (req: Request, res: Response): Promise<void> => {
   const { runId } = req.params;
 
   try {
-    const response = await store.getRun(runId);
+    const response = await replayStore.getRun(runId);
     if (!response) {
       res.status(404).json({ error: `Batch run not found: ${runId}` });
       return;
@@ -84,7 +142,7 @@ datasetsRouter.get('/runs/:runId', async (req: Request, res: Response): Promise<
 // ---------------------------------------------------------------------------
 datasetsRouter.get('/runs', async (_req: Request, res: Response): Promise<void> => {
   try {
-    const summaries = await store.listRuns();
+    const summaries = await replayStore.listRuns();
     res.json({ items: summaries });
   } catch (err) {
     console.error('[GET /api/datasets/runs]', err);

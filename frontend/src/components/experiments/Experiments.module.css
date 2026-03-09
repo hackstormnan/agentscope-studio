@@ -269,3 +269,116 @@
 }
 
 .compPromptIcon { font-size: 16px; }
+
+/* ── Batch evaluation panel ──────────────────────────────────────────────── */
+
+.evalPanel {
+  margin-top: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.evalPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.evalPanelTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* One row per run */
+.evalRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.evalRow:last-child { border-bottom: none; }
+
+.evalRunId {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+  width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Single metric column: label on top, value below */
+.evalMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 56px;
+}
+
+.evalMetricLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-subtle);
+}
+
+.evalScore {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.evalMetricValue {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.evalBad {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--error);
+  font-variant-numeric: tabular-nums;
+}
+
+.evalOk {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.evalEmpty {
+  font-size: 12px;
+  color: var(--text-subtle);
+  flex: 1;
+  font-style: italic;
+}
+
+.evalActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.evalError {
+  font-size: 12px;
+  color: var(--error);
+}
