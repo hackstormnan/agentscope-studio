@@ -258,6 +258,60 @@ push / PR
 
 ---
 
+## Testing
+
+### Running tests locally
+
+```bash
+npm test                   # run all integration smoke tests
+npm run test:integration   # alias for npm test
+npm run test:smoke         # alias for npm test
+```
+
+### What the smoke CI validates
+
+The integration tests in `tests/integration/` exercise the full orchestration path of each CLI command by calling the same service classes the commands use — no HTTP server required, no data written to disk.
+
+| Test file | What it covers |
+|---|---|
+| `replay-dataset.test.ts` | Fixture files are valid JSON; `BatchReplayService` processes all items; summary counts are consistent |
+| `evaluate-run.test.ts` | `BatchEvaluationService` produces a `BatchEvaluationResponse` with correct shape; `itemEvaluations` count matches result count |
+| `regression-report.test.ts` | Full replay → evaluate → regression pipeline runs end-to-end; `RegressionReport` has required fields; metric deltas are valid `RegressionStatus` values |
+
+### Fixture files
+
+| File | Purpose |
+|---|---|
+| `ci/datasets/smoke-test.json` | 3-item dataset used in replay + evaluate steps |
+| `ci/configs/baseline.json` | 5-item dataset for regression baseline run |
+| `ci/configs/candidate.json` | 5-item dataset with `replayOverrides` for regression candidate run |
+
+### CI smoke test command
+
+The GitHub Actions workflow runs `npm run ci:smoke` as its first step — before executing any replay or evaluation against live data. This acts as a fast pre-flight check (< 5 s) that catches breaking changes to service interfaces before the full pipeline runs.
+
+### Limitations of the current smoke CI
+
+- **Synthetic replay only** — `BatchReplayService` applies overrides to inputs but does not execute a real LLM or agent. Outputs are the (possibly overridden) inputs, not real agent responses.
+- **Rule-based evaluation only** — `RuleBasedEvaluator` applies structural rules (empty output, step errors, etc.). LLM-as-judge scoring is not yet implemented.
+- **No baseline pinning** — the integration tests verify shape and structure, not specific numeric values. Metric delta values in tests are not asserted against fixed numbers.
+- **No concurrency testing** — services are called sequentially; file store concurrency issues would not be caught here.
+
+### How regression thresholds are enforced
+
+The `generate-regression-report` command checks `percentageDelta` for each metric against the thresholds defined in [`src/cli/commands/generate-regression-report.ts`](src/cli/commands/generate-regression-report.ts):
+
+```typescript
+const THRESHOLDS: Record<string, number> = {
+  evaluationScore: -5,   // score may not drop more than 5%
+  successRate:     -3,   // success rate may not drop more than 3%
+};
+```
+
+When any threshold is exceeded the command exits with code `1`, which fails the GitHub Actions workflow step and blocks the PR/merge.
+
+---
+
 ## Technology Stack
 
 | Layer | Technology |

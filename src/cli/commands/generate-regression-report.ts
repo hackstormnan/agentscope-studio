@@ -3,7 +3,7 @@ import { RegressionReportService }   from '../../server/regression-report/Regres
 import { RegressionReportStore }     from '../../server/regression-report/RegressionReportStore';
 import type { RegressionMetricDelta } from '../../core/regression-model';
 import {
-  printSection, printKV, printWarn, printError,
+  printSection, printKV, printWarn, printError, printOk,
   fmtDelta, fmtPctDelta,
 } from '../utils/output';
 
@@ -145,4 +145,11 @@ export async function generateRegressionReportCommand(
     // Exit 1 → signals failure to CI.
     process.exit(1);
   }
+
+  const improved  = report.comparison.metricDeltas.filter((d) => d.status === 'improved').length;
+  const regressed = report.comparison.metricDeltas.filter((d) => d.status === 'regressed').length;
+  printOk(
+    `Regression check passed — ${improved} improved, ${regressed} regressed, ` +
+    `0 threshold violations`,
+  );
 }

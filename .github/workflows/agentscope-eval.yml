@@ -1,34 +1,24 @@
 # AgentScope Studio — Automated Evaluation & Regression Check
 #
-# This workflow runs on every push to main and on pull requests.
-# It executes the full evaluation pipeline:
-#   1. Replay dataset   → produces a candidate run
-#   2. Evaluate run     → scores the candidate run
-#   3. Regression check → compares candidate against a stored baseline
+# Pipeline stages:
+#   1. Smoke tests     → unit/integration guard (fast, no network)
+#   2. Replay dataset  → produce a candidate run from ci/datasets/smoke-test.json
+#   3. Evaluate run    → score the candidate run
+#   4. Regression check → compare candidate vs. baseline (if BASELINE_RUN_ID is set)
+#   5. Upload artefacts → data/datasets/ and data/reports/ kept for 30 days
 #
-# ── Prerequisites ──────────────────────────────────────────────────────────────
+# ── Repository variables ───────────────────────────────────────────────────────
 #
-# Repository secrets / variables to configure:
+#   BASELINE_RUN_ID  (optional)
+#     Set to the runId of the last known-good evaluation to enable the regression
+#     step.  When absent the regression step is skipped and the workflow still
+#     passes (replay + evaluate still run).
 #
-#   BASELINE_RUN_ID   (required for regression step)
-#     The datasetRunId of the previously evaluated baseline run.
-#     Set this to the runId of the last known-good evaluation.
-#     Update it manually (or via a separate "promote baseline" workflow)
-#     after a run is confirmed to be acceptable.
+# ── Fixture files ──────────────────────────────────────────────────────────────
 #
-# ── Dataset config ─────────────────────────────────────────────────────────────
-#
-# The workflow expects a dataset config file at:
-#   ci/datasets/smoke-test.json
-#
-# Minimal example:
-#   {
-#     "datasetId": "ds-ci-smoke",
-#     "name": "CI Smoke Test",
-#     "items": [
-#       { "itemId": "i1", "input": { "prompt": "Summarise in one sentence." } }
-#     ]
-#   }
+#   ci/datasets/smoke-test.json   — dataset used in replay + evaluate steps
+#   ci/configs/baseline.json      — baseline dataset config (regression tests only)
+#   ci/configs/candidate.json     — candidate dataset config (regression tests only)
 
 name: AgentScope Evaluation
 
@@ -40,7 +30,7 @@ on:
 
 jobs:
   evaluate:
-    name: Dataset Replay → Evaluate → Regression Check
+    name: Smoke Tests → Replay → Evaluate → Regression Check
     runs-on: ubuntu-latest
 
     steps:
@@ -48,7 +38,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ── Node.js setup ─────────────────────────────────────────────────────────
+      # ── Node.js ───────────────────────────────────────────────────────────────
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -59,45 +49,59 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # ── Integration smoke tests ───────────────────────────────────────────────
+      #
+      # Validates that fixture files are valid and all service orchestration paths
+      # work end-to-end before running the full evaluation pipeline.
+      # Fast (< 5 s), no network, no disk writes.
+      - name: Run integration smoke tests
+        run: npm run ci:smoke
+
       # ── Replay dataset ────────────────────────────────────────────────────────
       #
-      # Runs the dataset defined in ci/datasets/smoke-test.json and captures
-      # the emitted "runId=<value>" line so subsequent steps can reference it.
+      # Captures stdout to a file so the runId marker line can be extracted
+      # reliably without interference from npm's stderr banner.
       - name: Replay dataset
         id: replay
         run: |
-          OUTPUT=$(npm run cli -- replay-dataset \
-            --config ci/datasets/smoke-test.json \
-            --experiment ci-run-${{ github.run_number }})
+          npm run --silent cli -- replay-dataset \
+            --config  ci/datasets/smoke-test.json \
+            --experiment ci-run-${{ github.run_number }} \
+            | tee /tmp/replay-output.txt
 
-          echo "$OUTPUT"
-
-          # Extract runId from the machine-readable marker line.
-          RUN_ID=$(echo "$OUTPUT" | grep '^runId=' | cut -d'=' -f2)
-          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          RUN_ID=$(grep '^runId=' /tmp/replay-output.txt | cut -d'=' -f2)
+          if [ -z "$RUN_ID" ]; then
+            echo "ERROR: could not extract runId from replay output"
+            cat /tmp/replay-output.txt
+            exit 1
+          fi
+          echo "run_id=${RUN_ID}" >> "$GITHUB_OUTPUT"
+          echo "Captured run_id=${RUN_ID}"
 
       # ── Evaluate run ──────────────────────────────────────────────────────────
       - name: Evaluate run
+        id: evaluate
         run: |
-          npm run cli -- evaluate-run --run ${{ steps.replay.outputs.run_id }}
+          npm run --silent cli -- evaluate-run \
+            --run ${{ steps.replay.outputs.run_id }} \
+            | tee /tmp/evaluate-output.txt
 
       # ── Regression check ──────────────────────────────────────────────────────
       #
-      # Only runs when BASELINE_RUN_ID is configured.
-      # Exits with code 1 and fails the workflow if score drops > 5 % or
-      # success rate drops > 3 % relative to the baseline.
+      # Only runs when BASELINE_RUN_ID is configured.  Exits 1 and fails the
+      # workflow if evaluationScore drops > 5 % or successRate drops > 3 %.
       - name: Generate regression report
         if: ${{ vars.BASELINE_RUN_ID != '' }}
         run: |
-          npm run cli -- generate-regression-report \
-            --baseline ${{ vars.BASELINE_RUN_ID }} \
-            --candidate ${{ steps.replay.outputs.run_id }}
+          npm run --silent cli -- generate-regression-report \
+            --baseline  ${{ vars.BASELINE_RUN_ID }} \
+            --candidate ${{ steps.replay.outputs.run_id }} \
+            | tee /tmp/regression-output.txt
 
-      # ── Upload report artefacts ───────────────────────────────────────────────
+      # ── Upload evaluation artefacts ───────────────────────────────────────────
       #
-      # Persist the data/ directory so regression reports and evaluation results
-      # can be inspected after the run.  These are NOT cached between runs —
-      # each run produces a clean set of artefacts.
+      # Persists run data so evaluation results can be inspected post-run.
+      # Kept for 30 days.  Gracefully skipped when no files were written.
       - name: Upload evaluation artefacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -107,4 +111,17 @@ jobs:
             data/datasets/
             data/reports/
           retention-days: 30
+          if-no-files-found: ignore
+
+      # ── Upload CI output logs ─────────────────────────────────────────────────
+      #
+      # Captures the tee'd output files so replay / evaluation / regression
+      # summaries are available as named artefacts regardless of step outcome.
+      - name: Upload CLI output logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentscope-logs-${{ github.run_number }}
+          path: /tmp/*-output.txt
+          retention-days: 7
           if-no-files-found: ignore

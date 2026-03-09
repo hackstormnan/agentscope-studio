@@ -2,7 +2,7 @@ import { DatasetReplayStore }     from '../../server/dataset-replay/DatasetRepla
 import { BatchEvaluationService } from '../../server/batch-evaluation/BatchEvaluationService';
 import { BatchEvaluationStore }   from '../../server/batch-evaluation/BatchEvaluationStore';
 import {
-  printSection, printKV, printError,
+  printSection, printKV, printError, printOk,
   fmt, fmtPct,
 } from '../utils/output';
 
@@ -61,6 +61,12 @@ export async function evaluateRunCommand(flags: Record<string, string>): Promise
   printKV('Success Rate',    fmtPct(summary.successRate));
   printKV('Average Score',   summary.averageScore !== undefined
     ? summary.averageScore.toFixed(3) : '—');
+
+  printOk(
+    `Evaluation complete — ${summary.evaluatedItems}/${summary.totalItems} evaluated, ` +
+    `${summary.issueCount} issue${summary.issueCount !== 1 ? 's' : ''}, ` +
+    `success rate ${fmtPct(summary.successRate)}`,
+  );
 
   // Machine-readable marker for CI scripts.
   console.log(`\nrunId=${summary.runId}`);

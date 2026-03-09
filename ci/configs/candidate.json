@@ -1,0 +1,35 @@
+{
+  "datasetId": "ds-ci-candidate",
+  "name": "CI Regression Candidate",
+  "description": "Candidate dataset for regression comparison. Applies a system-level prompt override to simulate a prompt change under test.",
+  "items": [
+    {
+      "itemId": "cand-001",
+      "input": { "prompt": "What is 2 + 2?" },
+      "expectedOutput": "4"
+    },
+    {
+      "itemId": "cand-002",
+      "input": { "prompt": "What is the capital of France?" },
+      "expectedOutput": "Paris"
+    },
+    {
+      "itemId": "cand-003",
+      "input": { "prompt": "Name one planet in our solar system." },
+      "expectedOutput": "Mars"
+    },
+    {
+      "itemId": "cand-004",
+      "input": { "prompt": "What colour is the sky on a clear day?" },
+      "expectedOutput": "Blue"
+    },
+    {
+      "itemId": "cand-005",
+      "input": { "prompt": "How many days are in a standard week?" },
+      "expectedOutput": "7"
+    }
+  ],
+  "replayOverrides": {
+    "overridePrompt": "Answer in one word only."
+  }
+}

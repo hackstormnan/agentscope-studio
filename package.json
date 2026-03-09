@@ -9,6 +9,10 @@
     "dev": "ts-node src/server/api/server.ts",
     "dev:server": "ts-node src/server/api/server.ts",
     "cli": "ts-node src/cli/index.ts",
+    "test": "ts-node tests/run.ts",
+    "test:integration": "ts-node tests/run.ts",
+    "test:smoke": "ts-node tests/run.ts",
+    "ci:smoke": "ts-node tests/run.ts",
     "sanity:post": "ts-node scripts/post-trace.ts",
     "sanity:get": "ts-node scripts/get-traces.ts"
   },

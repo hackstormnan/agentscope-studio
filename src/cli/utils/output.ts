@@ -24,6 +24,11 @@ export function printError(msg: string): void {
   console.error(`  ✗  ${msg}`);
 }
 
+/** Final success status line — printed after a command completes successfully. */
+export function printOk(msg: string): void {
+  console.log(`\n  ✓  ${msg}`);
+}
+
 /** Format an optional number with a fallback. */
 export function fmt(value: number | undefined, fallback = '—'): string {
   return value !== undefined ? String(value) : fallback;

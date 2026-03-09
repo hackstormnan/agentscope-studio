@@ -5,7 +5,7 @@ import type { ReplayOverrides }   from '../../core/replay-model';
 import { BatchReplayService }     from '../../server/dataset-replay/BatchReplayService';
 import { DatasetReplayStore }     from '../../server/dataset-replay/DatasetReplayStore';
 import { createDatasetRunId }     from '../../server/dataset-replay/DatasetReplayUtils';
-import { printSection, printKV, printError, fmtPct } from '../utils/output';
+import { printSection, printKV, printError, printOk, fmtPct } from '../utils/output';
 
 /**
  * Schema for the --config JSON file.
@@ -103,6 +103,11 @@ export async function replayDatasetCommand(flags: Record<string, string>): Promi
   printKV('Errors',      summary.errorCount);
   printKV('Success Rate', fmtPct(successRate));
   printKV('Status',      response.run.status);
+
+  const statusMsg = summary.errorCount === 0
+    ? `Replay complete — ${summary.totalItems} items, ${summary.successCount} succeeded`
+    : `Replay complete with errors — ${summary.successCount}/${summary.totalItems} succeeded, ${summary.errorCount} failed`;
+  printOk(statusMsg);
 
   // Emit machine-readable marker last so CI scripts can grep for it.
   console.log(`\nrunId=${summary.runId}`);
