@@ -1,0 +1,22 @@
+{
+  "replayId": "replay_3bc9e22a-36a1-45a8-9bfb-667974860c06",
+  "sourceTraceId": "c99801ec-5557-4561-81f5-eb759b25cd9a",
+  "targetStepId": "b37ddd44-678f-4f44-b003-ce3b5fcac483",
+  "status": "success",
+  "startedAt": "2026-03-09T02:36:52.158Z",
+  "completedAt": "2026-03-09T02:36:52.158Z",
+  "producedStep": {
+    "originalStepId": "b37ddd44-678f-4f44-b003-ce3b5fcac483",
+    "originalType": "llm",
+    "originalInput": {
+      "prompt": "Recover"
+    },
+    "originalOutput": {
+      "text": "Recovered."
+    },
+    "appliedOverrides": {},
+    "replayedInput": {
+      "prompt": "Recover"
+    }
+  }
+}
