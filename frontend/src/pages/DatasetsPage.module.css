@@ -1,0 +1,41 @@
+.metricStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 900px) {
+  .metricStrip { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Success rate cell: mini bar + percentage */
+.rateCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rateBar {
+  display: inline-block;
+  width: 64px;
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rateBarFill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.rateLabel {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  white-space: nowrap;
+}

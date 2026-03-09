@@ -9,9 +9,10 @@ import { ExecutionTimeline } from '../features/trace-detail/ExecutionTimeline';
 import { StepDetailPanel } from '../features/trace-detail/StepDetailPanel';
 import { ReasoningGraph } from '../features/trace-detail/ReasoningGraph';
 import { PromptDiffViewer } from '../features/trace-detail/PromptDiffViewer';
-import { ReplayPanel } from '../components/replay/ReplayPanel';
+import { ReplayPanel }     from '../components/replay/ReplayPanel';
 import { EvaluationPanel } from '../components/evaluation/EvaluationPanel';
 import { PerformancePanel } from '../components/performance/PerformancePanel';
+import { AgentsPanel }     from '../components/agents/AgentsPanel';
 import styles from './TraceDetailPage.module.css';
 
 export default function TraceDetailPage() {
@@ -21,7 +22,7 @@ export default function TraceDetailPage() {
   const [loading,    setLoading]    = useState(true);
   const [error,      setError]      = useState<string | null>(null);
   const [activeStep, setActiveStep] = useState<AgentStep | null>(null);
-  const [activeTab,  setActiveTab]  = useState<'graph' | 'diff' | 'replay' | 'evaluation' | 'performance'>('graph');
+  const [activeTab,  setActiveTab]  = useState<'graph' | 'diff' | 'replay' | 'evaluation' | 'performance' | 'agents'>('graph');
 
   useEffect(() => {
     if (!traceId) return;
@@ -178,6 +179,12 @@ export default function TraceDetailPage() {
         >
           Performance
         </button>
+        <button
+          className={`tab${activeTab === 'agents' ? ' tab-active' : ''}`}
+          onClick={() => setActiveTab('agents')}
+        >
+          Agents
+        </button>
       </div>
 
       {activeTab === 'graph' && (
@@ -203,6 +210,10 @@ export default function TraceDetailPage() {
 
       {activeTab === 'performance' && (
         <PerformancePanel trace={trace} />
+      )}
+
+      {activeTab === 'agents' && (
+        <AgentsPanel steps={trace.steps} />
       )}
     </div>
   );
