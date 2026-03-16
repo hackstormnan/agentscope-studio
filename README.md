@@ -1,8 +1,15 @@
 # AgentScope Studio
 
+[![CI](https://github.com/hackstormnan/agentscope-studio/actions/workflows/agentscope-eval.yml/badge.svg)](https://github.com/hackstormnan/agentscope-studio/actions/workflows/agentscope-eval.yml)
+![Node ≥20](https://img.shields.io/badge/node-%E2%89%A520-brightgreen)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue)
+
 **Observability, evaluation, and regression testing for AI agents.**
 
 AgentScope Studio gives engineering teams the tooling to understand, test, and continuously improve AI agent behaviour. It captures agent execution traces, replays them with configuration changes, scores outputs against defined rules, tracks experiment runs side by side, and detects performance regressions — all through a local-first web UI and a CI-ready CLI.
+
+**Local-first, zero external dependencies.** Unlike cloud-hosted observability tools (LangSmith, Langfuse), AgentScope Studio runs entirely on your machine with file-based storage — no API keys, no SaaS account, no data leaving your environment. The same CLI pipeline runs locally and in CI.
 
 ---
 
@@ -11,12 +18,30 @@ AgentScope Studio gives engineering teams the tooling to understand, test, and c
 | Capability | Description |
 |---|---|
 | **Trace Explorer** | Browse, filter, and inspect full agent execution traces with step-level detail |
+| **Reasoning Graph** | Interactive ReactFlow node graph of agent step execution — visually navigate LLM calls, tool use, memory reads, and planner decisions |
+| **Prompt Diff Viewer** | Line-by-line diff of prompts and inputs across steps — see exactly what changed between two agent runs |
 | **Step Replay** | Re-run any individual agent step with overridden prompts or inputs |
 | **Rule-based Evaluation** | Score trace outputs against configurable issue-detection rules |
 | **Dataset Replay** | Run a batch of input items through the agent and collect outputs |
 | **Experiment Tracking** | Compare multiple dataset runs side by side with metric summaries |
 | **Regression Reports** | Detect score, latency, and cost regressions between experiment runs |
 | **CLI Automation** | Drive the full pipeline from a terminal or CI workflow |
+
+---
+
+## Screenshots
+
+> Screenshots will be added once a hosted demo environment is set up.
+> See [`docs/screenshots.md`](docs/screenshots.md) for descriptions of each UI screen.
+
+| Screen | Description |
+|---|---|
+| Dashboard | Health banner, KPI strip (total traces, error rate, avg latency, active experiments), navigation grid |
+| Trace Explorer | Filterable trace table → step tree, latency timeline, token breakdown by step type |
+| Reasoning Graph | ReactFlow interactive graph — agent step tree with LLM call / tool / memory node types |
+| Prompt Diff Viewer | Side-by-side line diff of prompts across any two steps in a trace |
+| Experiment Detail | Two dataset runs compared side by side — metrics summary, per-item diff, regression report |
+| Regression Report | Metric delta table (score, latency, cost) with improved / regressed / unchanged classification |
 
 ---
 
@@ -102,6 +127,8 @@ The CLI wraps all of the above in three composable commands designed for termina
 ---
 
 ## Getting Started
+
+For a guided 5-minute walkthrough see [`docs/demo.md`](docs/demo.md).
 
 ### Prerequisites
 
@@ -317,6 +344,9 @@ When any threshold is exceeded the command exits with code `1`, which fails the 
 | Layer | Technology |
 |---|---|
 | Frontend | React 18, TypeScript, Vite, CSS Modules |
+| Trace Visualization | [ReactFlow](https://reactflow.dev/) — interactive step graph with custom layout engine |
+| Prompt Diffing | [diff](https://github.com/kpdecker/jsdiff) — line-by-line prompt comparison across steps |
+| Routing | React Router v6 — SPA with one component per route |
 | Backend | Node.js, Express 4, TypeScript |
 | Storage | File-based JSON (`data/` directory — no database required) |
 | CLI | ts-node, zero extra runtime dependencies |
